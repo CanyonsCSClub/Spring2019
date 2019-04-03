@@ -1,7 +1,7 @@
 ﻿/* 
  * Author: Darrell Wong
  * Start Date: 3/29/2019
- * last updated: 3/29/2019
+ * last updated: 4/2/2019
  * Description:     scripting for the big enemy
  */
 
@@ -29,7 +29,8 @@ public class BigEnemy: MonoBehaviour {
     public float backCone;
     public float backAwayTime;
 
-
+    public Animator animator;
+    
     void Start()
     {
         enemyRB = GetComponent<Rigidbody>();    //get this (enemy) object
@@ -45,11 +46,18 @@ public class BigEnemy: MonoBehaviour {
         distance = distanceFromPlayer();
         angle = playerLocationAngle();
 
+        animator.SetBool("moving forward", false);                      //I wasn't sure how to rig the animations properly. it works but dont follow my example because i might be wrong.
+        animator.SetBool("backaway", backingAway);
+
+
         if (attacking == false)                                        //stops everything while attacking if attacking is true
         {
             if (distance < aggroRange)                                 
             {
-                if (distance < attackRange && backingAway == false)      //the attacking boolean = true lets the enemy pause between attacks
+
+                animator.SetBool("in range", true);
+
+                if (distance < attackRange && backingAway == false)      //if the player is in the attack range (very close), the enemy will either "sweepattack" or "spin attack" based on if the player is infront or behind
                 {
                     if (playerLocationAngle() < frontCone)
                     {
@@ -63,26 +71,26 @@ public class BigEnemy: MonoBehaviour {
                 }
 
 
-                else if (angle < frontCone)                             //these checks help the ai keep the player infront of the enemy
+                else if (angle < frontCone)                             //if the player is infornt of the enemy, it will walk forward and rotate
                 {
                     if (backingAway == false)
                     {
                         moveForward();
                     }
-                    rotateToPlayer();
+                    rotateToPlayer();                   
                 }
 
-                else if (angle > frontCone && angle < 85)
+                else if (angle > frontCone && angle < 85)               //if the player is to the front side of the enemy it will rotate
                 {
                     rotateToPlayer();
                 }
 
-                else if (angle > 85 && playerLocationAngle() < backCone)
+                else if (angle > 85 && playerLocationAngle() < backCone)    //if the player is to the side of the enemy, it will walk backwards
                 {
                     rotateToPlayer();
                     moveBack();
                 }
-                else if (angle > backCone)
+                else if (angle > backCone)                                  //if the player is behind the enemy, it will rotate
                 {
                     rotateToPlayer();
                 }
@@ -92,19 +100,20 @@ public class BigEnemy: MonoBehaviour {
 
             else
             {
+                animator.SetBool("in range", false);
                 //idle
             }
         }
     }
 
-    void rotateToPlayer()
+    void rotateToPlayer()                                                                       //this function rotates the enemy towards the player based on rotationSpeed
     {
         Vector3 targetDir = player.transform.position - transform.position;
 
         float step = rotationSpeed * Time.deltaTime;
 
         Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0f);                                               
-        newDir.y = 0f;                                                                          //zero out rotation
+        newDir.y = 0f;                                                                          //zero out rotation here
         Debug.DrawRay(transform.position, newDir, Color.red);
 
         transform.rotation = Quaternion.LookRotation(newDir);
@@ -119,6 +128,7 @@ public class BigEnemy: MonoBehaviour {
     void moveForward()
     {
         transform.position = Vector3.MoveTowards(transform.position, transform.position + transform.forward, forwardSpeed * Time.deltaTime);
+        animator.SetBool("moving forward", true);
     }
 
     void moveBack()
@@ -132,27 +142,33 @@ public class BigEnemy: MonoBehaviour {
     }
 
 
-    IEnumerator attackSweep()                                           //using coroutines to make attack sequences
+    IEnumerator attackSweep()                                           //using coroutines to make attack sequences. Coroutines allow the sequence to have timing delays.
     {
+        animator.SetTrigger("sweep attack");
+
         GetComponent<Renderer>().material.color = Color.red;
         attacking = true;
         //print("wind up");
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.7f);
         //print("attack sweep");
         sweepHitbox.GetComponent<Renderer>().enabled = true;
 
         yield return new WaitForSeconds(.5f);
         sweepHitbox.GetComponent<Renderer>().enabled = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
+
         GetComponent<Renderer>().material.color = Color.white;
         //print("end attack");
         //attacking = false;
 
+        //animator.SetBool("sweep attack", false);
         StartCoroutine(backAway());
     }
 
     IEnumerator attackSpin()
     {
+        animator.SetTrigger("spin attack");
+
         GetComponent<Renderer>().material.color = Color.yellow;
         attacking = true;
         //print("wind up");
@@ -160,11 +176,13 @@ public class BigEnemy: MonoBehaviour {
         spinHitbox.GetComponent<Renderer>().enabled = true;
         GetComponent<Renderer>().material.color = Color.yellow;
         //print("attack spin");
+
         for (int i = 0; i < 18; i++)
         {
-            enemyRB.transform.Rotate(0, 20, 0, Space.Self);
+            enemyRB.transform.Rotate(0, -20, 0, Space.Self);
             yield return new WaitForEndOfFrame();
         }
+
         spinHitbox.GetComponent<Renderer>().enabled = false;
         yield return new WaitForSeconds(1f);
         GetComponent<Renderer>().material.color = Color.white;
@@ -180,15 +198,16 @@ public class BigEnemy: MonoBehaviour {
     }
 
 
-    IEnumerator backAway()
+    IEnumerator backAway()                              //this coroutine is activated after an attack. It gives a delay between attacks.
     {
         backingAway = true;
+        //animator.SetBool("backaway", true);
         attacking = false;
-        for (int i = 0; i < backAwayTime; i++)
-        {
-            //print("back away");
-            yield return new WaitForSeconds(.01f);
-        }
+
+        yield return new WaitForSeconds(backAwayTime);
+
         backingAway = false;
+        //animator.SetBool("backaway", false);
+
     }
 }
