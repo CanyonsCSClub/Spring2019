@@ -303,3 +303,4 @@ MonoBehaviour:
   frontCone: 45
   backCone: 130
   backAwayTime: 40
+  animator: {fileID: 0}

@@ -1,7 +1,7 @@
 ﻿/* 
  * Author: Darrell Wong
  * Start Date: 3/29/2019
- * last updated: 4/2/2019
+ * last updated: 4/12/2019
  * Description:     scripting for the big enemy
  */
 
@@ -149,13 +149,13 @@ public class BigEnemy: MonoBehaviour {
         GetComponent<Renderer>().material.color = Color.red;
         attacking = true;
         //print("wind up");
-        yield return new WaitForSeconds(.7f);
+        yield return new WaitForSeconds(.8f);
         //print("attack sweep");
         sweepHitbox.GetComponent<Renderer>().enabled = true;
 
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.2f);
         sweepHitbox.GetComponent<Renderer>().enabled = false;
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.7f);
 
         GetComponent<Renderer>().material.color = Color.white;
         //print("end attack");
