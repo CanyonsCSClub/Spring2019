@@ -14,11 +14,11 @@ public class Ewok : MonoBehaviour {
 
 	private void Update(){
 		if (Ewokes == true) {
-			if(time <=10){
+			if(time <=60){
 				transform.Translate (0, 0, speed * Time.deltaTime * 6);//pushes the player into trap or wall to kill them
 				time++;
 			}
-			if (time >= 10) {
+			if (time >= 60) {
 				Ewokes.SetActive (false);
 			}
 		}
