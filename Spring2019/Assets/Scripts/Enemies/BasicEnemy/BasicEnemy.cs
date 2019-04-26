@@ -81,6 +81,15 @@ public class BasicEnemy : MonoBehaviour
         }
     }
 
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<Health>().AddjustCurrentHealth(-5);
+            print("taking damage");
+        }
+    }
+
     IEnumerator GenerateNewWanderPosition()                     // coroutine to set locations for enemy to wander to
     {
         float moveX = 0.0f;

@@ -157,6 +157,11 @@ Prefab:
       propertyPath: wanderObj
       value: 
       objectReference: {fileID: 544674222}
+    - target: {fileID: 136804563062694704, guid: 82c3892691c261f4fb275461226bffb6,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 82c3892691c261f4fb275461226bffb6, type: 2}
   m_IsPrefabParent: 0
@@ -716,6 +721,22 @@ GameObject:
   m_PrefabParentObject: {fileID: 1565199389280970, guid: e9f6f5636de6b4240abebce7b1305c76,
     type: 2}
   m_PrefabInternal: {fileID: 1989980748}
+--- !u!114 &1542689392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1542689385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 164f49ae3c5c1be4d848c0f41b5d7497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  curHealth: 100
+  bgImage: {fileID: 0}
+  fgImage: {fileID: 0}
+  healthBarLength: 0
 --- !u!1 &1700481887
 GameObject:
   m_ObjectHideFlags: 0
