@@ -12,16 +12,18 @@ public class InstantiateOnPress : MonoBehaviour {
     public GameObject arrowSpawnXminus;
     public GameObject arrowSpawnZminus;
 
+    bool isNorth = false;
+    bool isSouth = false;
+    bool isEast = false;
+    bool isWest = false;
 
     void Update () {
-        bool isNorth = false;
-        bool isSouth = false;
-        bool isEast = false;
-        bool isWest = false;
+
 
 
         if (Input.GetKeyDown("a"))
         {
+            Debug.Log("a");
             isNorth = false;
             isSouth = false;
             isEast = false;
@@ -30,6 +32,7 @@ public class InstantiateOnPress : MonoBehaviour {
         }
         if (Input.GetKeyDown("s"))
         {
+            Debug.Log("s");
             isNorth = false;
             isSouth = true;
             isEast = false;
@@ -38,6 +41,7 @@ public class InstantiateOnPress : MonoBehaviour {
         }
         if (Input.GetKeyDown("w"))
         {
+            Debug.Log("w");
             isNorth = true;
             isSouth = false;
             isEast = false;
@@ -46,6 +50,7 @@ public class InstantiateOnPress : MonoBehaviour {
         }
         if (Input.GetKeyDown("d"))
         {
+            Debug.Log("d");
             isNorth = false;
             isSouth = false;
             isEast = true;
@@ -58,28 +63,32 @@ public class InstantiateOnPress : MonoBehaviour {
 
         if (Input.GetKeyDown("f"))
         {
-           
-           
-            
+
+
+
             if (isNorth)
             {
-                var instArrow = (GameObject)Instantiate(arrowPrefab, arrowSpawnXplus.position, new Quaternion(playerPos.rotation.x, 90, playerPos.rotation.z, 0));
-                instArrow.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(arrowSpeed, 10, arrowSpeed));
+                Debug.Log("is north shoot");
+                var instArrow = (GameObject)Instantiate(arrowPrefab, arrowSpawnZplus.transform.position, new Quaternion(0, 90, 90, 0));
+                instArrow.GetComponent<Rigidbody>().AddForce(new Vector3(0, 10, arrowSpeed));
             }
             if (isEast)
             {
-                var instArrow = (GameObject)Instantiate(arrowPrefab, playerPos.position, new Quaternion(playerPos.rotation.x, 90, playerPos.rotation.z, 0));
-                instArrow.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(arrowSpeed, 10, arrowSpeed));
+                Debug.Log("is east shoot");
+                var instArrow = (GameObject)Instantiate(arrowPrefab, arrowSpawnXplus.transform.position, new Quaternion(90, 90, 0, 0));
+                instArrow.GetComponent<Rigidbody>().AddForce(new Vector3(arrowSpeed, 10, 0));
             }
             if (isSouth)
             {
-                var instArrow = (GameObject)Instantiate(arrowPrefab, playerPos.position, new Quaternion(playerPos.rotation.x, 90, playerPos.rotation.z, 0));
-                instArrow.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(arrowSpeed, 10, arrowSpeed));
+                Debug.Log("is south shoot");
+                var instArrow = (GameObject)Instantiate(arrowPrefab, arrowSpawnZminus.transform.position, new Quaternion(0, 90, 90, 0));
+                instArrow.GetComponent<Rigidbody>().AddForce(new Vector3(0, 10, -arrowSpeed));
             }
             if (isWest)
             {
-                var instArrow = (GameObject)Instantiate(arrowPrefab, playerPos.position, new Quaternion(playerPos.rotation.x, 90, playerPos.rotation.z, 0));
-                instArrow.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(arrowSpeed, 10, arrowSpeed));
+                Debug.Log("is west shoot");
+                var instArrow = (GameObject)Instantiate(arrowPrefab, arrowSpawnXminus.transform.position, new Quaternion(90, 90, 0, 0));
+                instArrow.GetComponent<Rigidbody>().AddForce(new Vector3(-arrowSpeed, 10, 0));
             }
         }
     }

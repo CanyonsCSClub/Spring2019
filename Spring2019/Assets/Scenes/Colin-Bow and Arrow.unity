@@ -444,19 +444,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4124378288754080, guid: 17c899c5da3b7ca4783eda2d2ea9bc27, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4124378288754080, guid: 17c899c5da3b7ca4783eda2d2ea9bc27, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4124378288754080, guid: 17c899c5da3b7ca4783eda2d2ea9bc27, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0.7071068
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4124378288754080, guid: 17c899c5da3b7ca4783eda2d2ea9bc27, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4124378288754080, guid: 17c899c5da3b7ca4783eda2d2ea9bc27, type: 2}
       propertyPath: m_RootOrder
@@ -465,6 +465,18 @@ Prefab:
     - target: {fileID: 54320545023253012, guid: 17c899c5da3b7ca4783eda2d2ea9bc27,
         type: 2}
       propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4124378288754080, guid: 17c899c5da3b7ca4783eda2d2ea9bc27, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4124378288754080, guid: 17c899c5da3b7ca4783eda2d2ea9bc27, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4124378288754080, guid: 17c899c5da3b7ca4783eda2d2ea9bc27, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -486,9 +498,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3ac7829f1bca09479614ee9d2aaf3e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowPrefab: {fileID: 0}
-  playerPos: {fileID: 0}
-  arrowSpeed: 0
+  arrowPrefab: {fileID: 1280140042953374, guid: 17c899c5da3b7ca4783eda2d2ea9bc27,
+    type: 2}
+  playerPos: {fileID: 2012627018}
+  arrowSpeed: 1000
+  arrowSpawnXplus: {fileID: 1205099805}
+  arrowSpawnZplus: {fileID: 74016087}
+  arrowSpawnXminus: {fileID: 195153871}
+  arrowSpawnZminus: {fileID: 1273880715}
 --- !u!4 &2012627018 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4052756392135256, guid: e9f6f5636de6b4240abebce7b1305c76,
