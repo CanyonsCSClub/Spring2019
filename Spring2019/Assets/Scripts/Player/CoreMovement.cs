@@ -15,18 +15,24 @@ public class CoreMovement : MonoBehaviour
     public float speed = 10;		// How fast the player moves 
     public float airSpeed = 5; 		// How fast the player moves in the air 
     public int jumpForce = 10; 		// How high the player can jump 
-    private Rigidbody playerRB;		// Populated with the rigidbody of the player later... 
+    private Rigidbody playerRB;	    // Populated with the rigidbody of the player later... 
     public bool isGrounded; 		// This boolean will be used to check if the player is on the ground 
 
-	void Start ()
+    
+    
+
+    void Start ()
     {
         playerRB = GetComponent<Rigidbody>(); // Set playerRB to the rigidbody of the object this script is attached to 
+        
 	}
 
 	void Update ()
-    {
+    {    
         PlayerMovement();		// Every frame, run this method 
 	}
+
+
 
     private void PlayerMovement()
     {
