@@ -9,8 +9,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BigEnemy: MonoBehaviour {
-
+public class BigEnemy: MonoBehaviour
+{
     private Rigidbody enemyRB;                  //rigid body of this enemy. populated in start
     private GameObject player;
     public GameObject spinHitbox;               //attach the hitboxes located in the enemies's prefabs
@@ -22,7 +22,6 @@ public class BigEnemy: MonoBehaviour {
     private Vector3 enemyPos;       // location of enemy self
     private Vector3 nextPos;        // set location for enemy to move to
     private Vector3 playerPos;
-
 
     private float distanceToPlayer;
     private float distanceToTarget;
@@ -184,10 +183,10 @@ public class BigEnemy: MonoBehaviour {
         yield return new WaitForSeconds(.8f);
 
                                                                         //print("attack sweep");
-        sweepHitbox.GetComponent<Renderer>().enabled = true;
+        //sweepHitbox.GetComponent<Renderer>().enabled = true;
 
         yield return new WaitForSeconds(.2f);                           //active hitbox
-        sweepHitbox.GetComponent<Renderer>().enabled = false;
+        //sweepHitbox.GetComponent<Renderer>().enabled = false;
         yield return new WaitForSeconds(.7f);
 
         GetComponent<Renderer>().material.color = Color.white;
@@ -205,7 +204,7 @@ public class BigEnemy: MonoBehaviour {
         attacking = true;
                                                                         //print("wind up");
         yield return new WaitForSeconds(1f);
-        spinHitbox.GetComponent<Renderer>().enabled = true;
+        //spinHitbox.GetComponent<Renderer>().enabled = true;
         GetComponent<Renderer>().material.color = Color.yellow;
                                                                         //print("active hitbox");
 
@@ -215,7 +214,7 @@ public class BigEnemy: MonoBehaviour {
             yield return new WaitForEndOfFrame();
         }
 
-        spinHitbox.GetComponent<Renderer>().enabled = false;
+        //spinHitbox.GetComponent<Renderer>().enabled = false;
         yield return new WaitForSeconds(1f);
         GetComponent<Renderer>().material.color = Color.white;
                                                                         //print("end attack");

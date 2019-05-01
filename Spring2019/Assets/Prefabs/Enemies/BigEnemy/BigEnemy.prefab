@@ -667,7 +667,7 @@ Transform:
   m_GameObject: {fileID: 1131677284096784}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.755908, y: 2.99, z: -7.8044357}
-  m_LocalScale: {x: 2, y: 3, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4890583518309412}
   - {fileID: 4927697554151216}
@@ -820,7 +820,7 @@ Transform:
   m_GameObject: {fileID: 1599815388947692}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.445, z: 0}
-  m_LocalScale: {x: 1.03, y: 0.64, z: 0.65}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4808647129685398}
   - {fileID: 4541460460388014}
@@ -1134,7 +1134,7 @@ MonoBehaviour:
   attackRange: 3
   frontCone: 45
   backCone: 130
-  backAwayTime: 1
+  CoolDownTime: 0
   animator: {fileID: 95493374865008498}
 --- !u!137 &137037122617474790
 SkinnedMeshRenderer:

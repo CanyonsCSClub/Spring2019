@@ -11,17 +11,20 @@ using UnityEngine;
 
 public class BasicEnemy : MonoBehaviour
 { 
-    private Vector3 enemyPos;       // location of enemy self
-    private Vector3 playerPos;      // location of player
-    private Vector3 nextPos;        // set location for enemy to move to
-    private Rigidbody enemyBod;     // physical object variable for enemy self
+    public Vector3 enemyPos;       // location of enemy self
+    public Vector3 playerPos;      // location of player
+    public Vector3 nextPos;        // set location for enemy to move to
+    public Rigidbody enemyBod;     // physical object variable for enemy self
     public GameObject wanderObj;    // the object you want the enemy to wander around
     private Vector3 wanderRad;      // the radius around the wanderObj
 
     public float speed = 5;     // movement speed
 
     private bool isTracking;    // player is in sight
-    private bool isWandering;   // enemy wanders aimlessly to pass the time.  He's a little bored.
+    private bool isWandering;   // enemy wanders aimlessly to pass the time.  He's a little bored. 
+
+    public GameObject animObj;
+    public float rotSpeed; 
 
     void Start()
     {
@@ -40,18 +43,39 @@ public class BasicEnemy : MonoBehaviour
         if (isTracking)             // enemy is looking for the player. enemy is lonely
         {
             MoveTowardsPlayer();    // if enemy sees the player, enemy moves toward the player.  enemy likes hugs
+            animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().RunAni();
+            RotateToTarget(playerPos); 
         }
-        else if (isWandering)       // enemy starts wandering around if the player is not nearby.  standing around doing nothing all day sucks.
+        else if (enemyPos.x == nextPos.x && enemyPos.z == nextPos.z)       // enemy starts wandering around if the player is not nearby.  standing around doing nothing all day sucks.
         {
             Wander();
+            animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().IdleAni();
         }
+        else if (enemyPos.x != nextPos.x && enemyPos.z != nextPos.z)
+        {
+            Wander();
+            animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().RunAni();
+            RotateToTarget(nextPos); 
+        }
+    }
+
+    void RotateToTarget(Vector3 target)                                                         //this function rotates the enemy towards the player based on rotationSpeed
+    {
+        Vector3 targetDir = target - transform.position;
+
+        float step = rotSpeed * Time.deltaTime;
+
+        Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0f);
+        newDir.y = 0f;                                                                          //zero out rotation here
+        Debug.DrawRay(transform.position, newDir, Color.red);
+
+        transform.rotation = Quaternion.LookRotation(newDir);
     }
 
     private void Wander()                                                                       // class for wandering
     {
         enemyPos = enemyBod.position;                                                           // updates enemyPos variable with current enemy position
         transform.position = Vector3.MoveTowards(enemyPos, nextPos, Time.deltaTime * speed);    // moves enemy to position designated by nextPos variable
-                                                                                                // first variable enemyPos is enemy current position, second variable nextPos is location enemy will be moving to, Time.deltaTime * speed moves the enemy at the same speed regardless of framerate
     }
 
     private void MoveTowardsPlayer()                                                            // movement
