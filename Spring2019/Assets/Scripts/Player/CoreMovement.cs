@@ -16,34 +16,51 @@ public class CoreMovement : MonoBehaviour
     public float airSpeed = 5; 		// How fast the player moves in the air 
     public int jumpForce = 10; 		// How high the player can jump 
     private Rigidbody playerRB;		// Populated with the rigidbody of the player later... 
-    public bool isGrounded; 		// This boolean will be used to check if the player is on the ground 
+    private Transform playerT; 
+    // public bool isGrounded; 		// This boolean will be used to check if the player is on the ground 
     public Animator anim;
     public Transform art;
     public Transform lookN;
-    public Transform lookNW; 
+    public bool lookNBool; 
+    public Transform lookNW;
+    public bool lookNWBool;
     public Transform lookW;
-    public Transform lookSW; 
+    public bool lookWBool;
+    public Transform lookSW;
+    public bool lookSWBool;
     public Transform lookS;
-    public Transform lookSE; 
+    public bool lookSBool;
+    public Transform lookSE;
+    public bool lookSEBool;
     public Transform lookE;
+    public bool lookEBool;
     public Transform lookNE;
+    public bool lookNEBool;
 
     public AudioSource grassSteps;
-    public bool playSteps; 
+    public bool playSteps;
+
+    public bool isWorking; 
 
     void Start()
     {
         playerRB = GetComponent<Rigidbody>(); // Set playerRB to the rigidbody of the object this script is attached to 
+        playerT = GetComponent<Transform>(); 
         art.LookAt(lookS);
         grassSteps = GetComponent<AudioSource>();
     }
 
     void Update()
     {
+        if (Input.GetKey("s") && Input.GetKey("d") && Input.GetKey("l"))
+        {
+            isWorking = true;
+        }
         PlayerMovement();		// Every frame, run this method 
         AnimMeth();
         RotChar();
-        AudioSteps(); 
+        AudioSteps();
+        GameObject.Find("Player").GetComponent<Shield>().BoolGetter(lookNBool, lookNWBool, lookWBool, lookSWBool, lookSBool, lookSEBool, lookEBool, lookNEBool);
 
         if (grassSteps.isPlaying == false && playSteps == true)
         {
@@ -53,60 +70,147 @@ public class CoreMovement : MonoBehaviour
         {
             grassSteps.Stop(); 
         }
-
+        else if (Input.GetKey("l"))
+        {
+            grassSteps.Stop();
+        }
     }
 
     private void RotChar()  // controls where the character is facing
     {
-        if (Input.GetKey("w") && Input.GetKey("d"))
+        if (Input.GetKey("l") && Input.GetKey("d"))
+        {
+            // leave blank
+        }
+        else if (Input.GetKey("l") && Input.GetKey("a"))
+        {
+            // leave blank
+        }
+        else if (Input.GetKey("l") && Input.GetKey("s"))
+        {
+            // leave blank
+        }
+        else if (Input.GetKey("l") && Input.GetKey("w"))
+        {
+            // leave blank
+        }
+        else if (Input.GetKey("w") && Input.GetKey("d"))
         {
             art.LookAt(lookNE);
+            lookNBool = false;
+            lookNWBool = false;
+            lookWBool = false;
+            lookSWBool = false;
+            lookSBool = false;
+            lookSEBool = false;
+            lookEBool = false;
+            lookNEBool = true;
         }
         else if (Input.GetKey("s") && Input.GetKey("d"))
         {
             art.LookAt(lookSE);
+            lookNBool = false;
+            lookNWBool = false;
+            lookWBool = false;
+            lookSWBool = false;
+            lookSBool = false;
+            lookSEBool = true;
+            lookEBool = false;
+            lookNEBool = false;
         }
         else if (Input.GetKey("s") && Input.GetKey("a"))
         {
             art.LookAt(lookSW);
+            lookNBool = false;
+            lookNWBool = false;
+            lookWBool = false;
+            lookSWBool = true;
+            lookSBool = false;
+            lookSEBool = false;
+            lookEBool = false;
+            lookNEBool = false;
         }
         else if (Input.GetKey("w") && Input.GetKey("a"))
         {
             art.LookAt(lookNW);
+            lookNBool = false;
+            lookNWBool = true;
+            lookWBool = false;
+            lookSWBool = false;
+            lookSBool = false;
+            lookSEBool = false;
+            lookEBool = false;
+            lookNEBool = false;
         }
         else if (Input.GetKey("w"))
         {
             art.LookAt(lookN);
+            lookNBool = true;
+            lookNWBool = false;
+            lookWBool = false;
+            lookSWBool = false;
+            lookSBool = false;
+            lookSEBool = false;
+            lookEBool = false;
+            lookNEBool = false; 
         }
         else if (Input.GetKey("a"))
         {
             art.LookAt(lookW);
+            lookNBool = false;
+            lookNWBool = false;
+            lookWBool = true;
+            lookSWBool = false;
+            lookSBool = false;
+            lookSEBool = false;
+            lookEBool = false;
+            lookNEBool = false;
         }
         else if (Input.GetKey("s"))
         {
             art.LookAt(lookS);
+            lookNBool = false;
+            lookNWBool = false;
+            lookWBool = false;
+            lookSWBool = false;
+            lookSBool = true;
+            lookSEBool = false;
+            lookEBool = false;
+            lookNEBool = false;
         }
         else if (Input.GetKey("d"))
         {
             art.LookAt(lookE);
+            lookNBool = false;
+            lookNWBool = false;
+            lookWBool = false;
+            lookSWBool = false;
+            lookSBool = false;
+            lookSEBool = false;
+            lookEBool = true;
+            lookNEBool = false;
         }
     }
 
     private void AnimMeth() // Make Animations pretty pretty
     {
-        if(Input.GetKeyDown("w")) 
+        if (Input.GetKey("l"))
+        {
+            anim.Play("Defend");
+        }
+        else if(Input.GetKey("w") && !Input.GetKey("l")) 
         {
             anim.Play("RunForwardBattle");
         }
-        else if(Input.GetKeyDown("a"))
+        else if(Input.GetKey("a") && !Input.GetKey("l"))
         {
             anim.Play("RunForwardBattle");
         }
-        else if(Input.GetKeyDown("s"))
+        else if (Input.GetKey("d") && !Input.GetKey("l"))
         {
             anim.Play("RunForwardBattle");
         }
-        else if(Input.GetKeyDown("d"))
+        else if(Input.GetKey("s") && !Input.GetKey("l"))
         {
             anim.Play("RunForwardBattle");
         }
@@ -122,46 +226,22 @@ public class CoreMovement : MonoBehaviour
 
     private void PlayerMovement()
     {
-        // ground speed 
-        if (Input.GetKey("w") && isGrounded) 												// If player is pressing W and isGrounded is true... 
-        {
-            playerRB.transform.Translate(transform.forward * Time.deltaTime * speed);		// move the player forward "speed" fast 
-        }
-        if (Input.GetKey("a") && isGrounded) 												// If player is pressing A and isGrounded is true... 
-        {
-            playerRB.transform.Translate(-transform.right * Time.deltaTime * speed);		// move the player left "speed" fast 
-        }
-        if (Input.GetKey("s") && isGrounded)  												// If player is pressing S and isGrounded is true... 
-        {
-            playerRB.transform.Translate(-transform.forward * Time.deltaTime * speed);		// move the player backward "speed" fast 
-        }
-        if (Input.GetKey("d") && isGrounded) 												// If player is pressing D and isGrounded is true... 
+        if (Input.GetKey("d") && !Input.GetKey("l")) 												// If player is pressing D and isGrounded is true... 
         {
             playerRB.transform.Translate(transform.right * Time.deltaTime * speed);			// move the player right "speed" fast 
         }
-        //air speed
-        if (Input.GetKey("w") && !isGrounded) 												// If player is pressing W and isGrounded is not true... 
+        if (Input.GetKey("s") && !Input.GetKey("l"))  												// If player is pressing S and isGrounded is true... 
         {
-            playerRB.transform.Translate(transform.forward * Time.deltaTime * airSpeed);	// move the player forward "airSpeed" fast 
+            playerRB.transform.Translate(-transform.forward * Time.deltaTime * speed);		// move the player backward "speed" fast 
         }
-        if (Input.GetKey("a") && !isGrounded) 												// If player is pressing A and isGrounded is not true... 
+        if (Input.GetKey("w") && !Input.GetKey("l")) 												// If player is pressing W and isGrounded is true... 
         {
-            playerRB.transform.Translate(-transform.right * Time.deltaTime * airSpeed);		// move the player left "airSpeed" fast 
+            playerRB.transform.Translate(transform.forward * Time.deltaTime * speed);		// move the player forward "speed" fast 
         }
-        if (Input.GetKey("s") && !isGrounded) 												// If player is pressing S and isGrounded is not true... 
+        if (Input.GetKey("a") && !Input.GetKey("l")) 												// If player is pressing A and isGrounded is true... 
         {
-            playerRB.transform.Translate(-transform.forward * Time.deltaTime * airSpeed);	// move the player backward "airSpeed" fast 
+            playerRB.transform.Translate(-transform.right * Time.deltaTime * speed);		// move the player left "speed" fast 
         }
-        if (Input.GetKey("d") && !isGrounded) 												// If player is pressing D and isGrounded is not true... 
-        {
-            playerRB.transform.Translate(transform.right * Time.deltaTime * airSpeed);  	// move the player right "airSpeed" fast 
-        }
-        // jump
-        //if (Input.GetKeyDown("space") && isGrounded)										// If player pressed the spacebar and isGrounded is true... 
-        //{
-        //    playerRB.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); 					// send an impulse to the Y axis that is jumpForce strong 
-        //    anim.Play("Idle_Battle");
-        //}
     }
 
     private void AudioSteps()
@@ -174,11 +254,11 @@ public class CoreMovement : MonoBehaviour
         {
             playSteps = true;
         }
-        if (Input.GetKey("s") == true)
+        if (Input.GetKey("d") == true)
         {
             playSteps = true;
         }
-        if (Input.GetKey("d") == true)
+        if (Input.GetKey("s") == true)
         {
             playSteps = true;
         }
