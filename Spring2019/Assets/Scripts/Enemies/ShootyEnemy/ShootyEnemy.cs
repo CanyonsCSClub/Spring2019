@@ -1,7 +1,7 @@
 ﻿/* 
  * Author: Darrell Wong using Gerardo's wander scripts
- * Start Date: 3/29/2019
- * last updated: 4/19/2019
+ * Start Date: 5/10/2019
+ * last updated: 5/17/2019
  * Description:     scripting for the shooty enemy
  *                 this script is similar to "BigEnemy.cs"
  */
@@ -36,12 +36,14 @@ public class ShootyEnemy : MonoBehaviour
     [Tooltip("Difficulty value of 0 or 1.")]
     public int difficulty;
 
-    //public Animator animator;
+    public GameObject anim;
 
     void Start()
     {
         enemyRB = GetComponent<Rigidbody>();    //get this (enemy) object
         player = GameObject.Find("Player");     //get the player
+
+
     }
 
 
@@ -67,6 +69,7 @@ public class ShootyEnemy : MonoBehaviour
             else
             {
                 //idle
+                anim.GetComponent<Animation>().CrossFade("Anim_Idle");
             }
         }
 
@@ -175,7 +178,8 @@ public class ShootyEnemy : MonoBehaviour
     IEnumerator Shoot()                                             //simply instantiate a projectile, the projectile does the moving by itself
     {
         isShooting = true;
-        yield return new WaitForSeconds(.2f);
+        anim.GetComponent<Animation>().CrossFade("Anim_Damage");
+        yield return new WaitForSeconds(.3f);
         Instantiate(projectile, transform.position, transform.rotation);
         yield return new WaitForSeconds(.5f);
         isShooting = false;
@@ -185,7 +189,7 @@ public class ShootyEnemy : MonoBehaviour
     IEnumerator RunAway()                                           //using Gerardos wander function as a base, picks a random point and sets it as the next location to move to
     {
         isRunningAway = true;
-
+        anim.GetComponent<Animation>().CrossFade("Anim_Run");
 
         float moveX = 0.0f;
         float moveZ = 0.0f;

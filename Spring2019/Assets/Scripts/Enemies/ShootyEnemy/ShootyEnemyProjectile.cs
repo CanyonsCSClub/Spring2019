@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/* 
+ * Author: Darrell Wong 
+ * Start Date: 5/10/2019
+ * last updated: 5/17/2019
+ * Description:     scripting for the shooty enemy's projectile
+ *               I decided to have the projectile move itself with a transform.position so that I can have a definite projectileSpeed for the prediction shooting to work;
+ */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
