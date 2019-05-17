@@ -5,9 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/Hunter-CoreMovement.unity
-    guid: 4d8ae03d2ed086640b7df5317a138cb3
+  - enabled: 1
+    path: Assets/Scenes/Level1.unity
+    guid: 4762c967db5a1a540ac72041a50a6b59
   - enabled: 1
     path: Assets/Scenes/Credits.unity
     guid: 6a1b75db838f57a4fb67eec0bc94d5ee

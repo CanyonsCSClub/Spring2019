@@ -33,5 +33,10 @@ public class PauseM : MonoBehaviour {
 		Time.timeScale = 0f;
 		GameIsPaused = true;
 	}
+
+    public void SetBool()
+    {
+        GameIsPaused = false; 
+    }
 		
 }
