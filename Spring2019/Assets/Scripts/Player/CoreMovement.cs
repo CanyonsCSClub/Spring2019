@@ -26,19 +26,34 @@ public class CoreMovement : MonoBehaviour
     public Transform lookS;
     public Transform lookSE; 
     public Transform lookE;
-    public Transform lookNE; 
+    public Transform lookNE;
+
+    public AudioSource grassSteps;
+    public bool playSteps; 
 
     void Start()
     {
         playerRB = GetComponent<Rigidbody>(); // Set playerRB to the rigidbody of the object this script is attached to 
         art.LookAt(lookS);
+        grassSteps = GetComponent<AudioSource>();
     }
 
     void Update()
     {
         PlayerMovement();		// Every frame, run this method 
         AnimMeth();
-        RotChar(); 
+        RotChar();
+        AudioSteps(); 
+
+        if (grassSteps.isPlaying == false && playSteps == true)
+        {
+            grassSteps.Play(); 
+        }
+        else if (playSteps == false)
+        {
+            grassSteps.Stop(); 
+        }
+
     }
 
     private void RotChar()  // controls where the character is facing
@@ -124,7 +139,7 @@ public class CoreMovement : MonoBehaviour
         {
             playerRB.transform.Translate(transform.right * Time.deltaTime * speed);			// move the player right "speed" fast 
         }
-        // air speed 
+        //air speed
         if (Input.GetKey("w") && !isGrounded) 												// If player is pressing W and isGrounded is not true... 
         {
             playerRB.transform.Translate(transform.forward * Time.deltaTime * airSpeed);	// move the player forward "airSpeed" fast 
@@ -147,6 +162,31 @@ public class CoreMovement : MonoBehaviour
         //    playerRB.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); 					// send an impulse to the Y axis that is jumpForce strong 
         //    anim.Play("Idle_Battle");
         //}
+    }
+
+    private void AudioSteps()
+    {
+        if (Input.GetKey("w") == true)
+        {
+            playSteps = true;
+        }
+        if (Input.GetKey("a") == true)
+        {
+            playSteps = true;
+        }
+        if (Input.GetKey("s") == true)
+        {
+            playSteps = true;
+        }
+        if (Input.GetKey("d") == true)
+        {
+            playSteps = true;
+        }
+        if (Input.anyKey == false)
+        {
+            playSteps = false; 
+        }
+
     }
 
     // Collision detection 
