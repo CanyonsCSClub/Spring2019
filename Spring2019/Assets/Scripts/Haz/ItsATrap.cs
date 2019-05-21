@@ -6,5 +6,12 @@ using UnityEngine;
 00101100 00100000 01101010 01110101 01110011 01110100 00100000 01110111 01101000 01111001 */
 
 public class ItsATrap : MonoBehaviour {
-	
+	public void OnCollisionEnter(Collision collision) 
+	{ 
+		if (collision.gameObject.CompareTag("Player")) 
+		{ 
+			collision.gameObject.GetComponent<Health>().AddjustCurrentHealth(-5); 
+			print("taking damage"); 
+		} 
+	}
 }

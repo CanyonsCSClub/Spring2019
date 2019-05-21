@@ -1236,7 +1236,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4052756392135256, guid: e9f6f5636de6b4240abebce7b1305c76, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -10.68
+      value: -8.47
       objectReference: {fileID: 0}
     - target: {fileID: 4052756392135256, guid: e9f6f5636de6b4240abebce7b1305c76, type: 2}
       propertyPath: m_LocalPosition.y
@@ -1244,7 +1244,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4052756392135256, guid: e9f6f5636de6b4240abebce7b1305c76, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 4.077095
+      value: 22.25
       objectReference: {fileID: 0}
     - target: {fileID: 4052756392135256, guid: e9f6f5636de6b4240abebce7b1305c76, type: 2}
       propertyPath: m_LocalRotation.x
@@ -1287,8 +1287,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   curHealth: 100
-  bgImage: {fileID: 0}
-  fgImage: {fileID: 0}
+  bgImage: {fileID: 2800000, guid: 910b32b89e0ccac4e93f479171a1188c, type: 3}
+  fgImage: {fileID: 2800000, guid: f0b87d1edf8fefe4c8c043c2cb977144, type: 3}
   healthBarLength: 0
 --- !u!1 &872931957
 GameObject:
@@ -3217,7 +3217,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2125905016}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.56, y: 0.32, z: -2.04}
+  m_LocalPosition: {x: -10.56, y: 0.32, z: 12.64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

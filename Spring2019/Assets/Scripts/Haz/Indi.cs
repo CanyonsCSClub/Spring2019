@@ -15,8 +15,16 @@ public class Indi : MonoBehaviour {
 				transform.Translate (speed, 0, 0);// moveing forward
 			}
 			if (time >= 60) {
-				Indiana.SetActive (false);
+				Indiana.SetActive (false);// makes it disapear
 			}
 		}
+	}
+	public void OnCollisionEnter(Collision collision) 
+	{ 
+		if (collision.gameObject.CompareTag("Player")) 
+		{ 
+			collision.gameObject.GetComponent<Health>().AddjustCurrentHealth(-5); 
+			print("taking damage"); 
+		} 
 	}
 }

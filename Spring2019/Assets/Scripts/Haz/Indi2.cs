@@ -5,6 +5,7 @@ using UnityEngine;
 public class Indi2 : MonoBehaviour {
 	private float speed = 5f;
 	void Update () {
-		transform.Rotate (0, 0, speed * -1);
+		transform.Rotate (0, 0, speed * -1);//spins
+
 	}
 }
