@@ -418,11 +418,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 1452868743016278, guid: 499da36cd58c6bf4e9ae2b250bac9fbb, type: 2}
-  rotationSpeed: 20
-  forwardSpeed: 15
-  shootRange: 20
-  triggerEscape: 6
-  escapeDistance: 20
+  rotationSpeed: 10
+  forwardSpeed: 10
+  shootRange: 10
+  triggerEscape: 5
+  escapeDistance: 5
   escapeSeconds: 1
   difficulty: 0
   anim: {fileID: 1358031714125546}

@@ -42,22 +42,22 @@ public class Shield : MonoBehaviour
 
         if (NW)
         {
-            shieldposition.Set(NWGO.position.x, NWGO.position.y, NWGO.position.z);
+            shieldposition.Set(NWGO.position.x, NWGO.position.y + 0.7f, NWGO.position.z);
             shieldrotation = Quaternion.Euler(0, 45, 0);
         }
         if (NE)
         {
-            shieldposition.Set(NEGO.position.x, NEGO.position.y, NEGO.position.z);
+            shieldposition.Set(NEGO.position.x, NEGO.position.y + 0.7f, NEGO.position.z);
             shieldrotation = Quaternion.Euler(0, 315, 0);
         }
         if (SE)
         {
-            shieldposition.Set(SEGO.position.x, SEGO.position.y, SEGO.position.z);
+            shieldposition.Set(SEGO.position.x, SEGO.position.y + 0.7f, SEGO.position.z);
             shieldrotation = Quaternion.Euler(0, 225, 0);
         }
         if (SW)
         {
-            shieldposition.Set(SWGO.position.x, SWGO.position.y, SWGO.position.z);
+            shieldposition.Set(SWGO.position.x, SWGO.position.y + 0.7f, SWGO.position.z);
             shieldrotation = Quaternion.Euler(0, 135, 0);
         }
         if (N)
@@ -67,17 +67,17 @@ public class Shield : MonoBehaviour
         }
         if (E)
         {
-            shieldposition.Set(EGO.position.x, EGO.position.y, EGO.position.z);
+            shieldposition.Set(EGO.position.x, EGO.position.y + 0.7f, EGO.position.z);
             shieldrotation = Quaternion.Euler(0, 0, 0);
         }
         if (S)
         {
-            shieldposition.Set(SGO.position.x, SGO.position.y, SGO.position.z);
+            shieldposition.Set(SGO.position.x, SGO.position.y + 0.7f, SGO.position.z);
             shieldrotation = Quaternion.Euler(0, 90, 0);
         }
         if (W)
         {
-            shieldposition.Set(WGO.position.x, WGO.position.y, WGO.position.z);
+            shieldposition.Set(WGO.position.x, WGO.position.y + 0.7f, WGO.position.z);
             shieldrotation = Quaternion.Euler(0, 0, 0);
         }
 

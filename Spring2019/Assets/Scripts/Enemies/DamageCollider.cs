@@ -8,6 +8,8 @@ public class DamageCollider : MonoBehaviour
     public int damage;
     public List<Collider> TriggerList = new List<Collider>();
 
+    public bool dam; 
+
     private void Update()
     {
         CleanList(); 
@@ -23,6 +25,7 @@ public class DamageCollider : MonoBehaviour
         if(col.gameObject.name == "Player" && CheckList("Shield(Clone)") == false)
         {
             col.gameObject.GetComponent<Health>().ChangeHealth(-damage);
+            dam = true; 
         }
         //else if (col.gameObject.name == "Player" && CheckList("Shield(Clone)") == true)
         //{

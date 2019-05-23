@@ -42,8 +42,6 @@ public class ShootyEnemy : MonoBehaviour
     {
         enemyRB = GetComponent<Rigidbody>();    //get this (enemy) object
         player = GameObject.Find("Player");     //get the player
-
-
     }
 
 

@@ -9,15 +9,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootyEnemyProjectile : MonoBehaviour {
-
+public class ShootyEnemyProjectile : MonoBehaviour
+{
     private Vector3 startPos;
     public float projectileSpeed;
 
 	// Use this for initialization
 	void Start ()
     {
-        Destroy(gameObject, 5);
+        Destroy(gameObject, 2);
         startPos = transform.position;
 	}
 	
@@ -26,5 +26,17 @@ public class ShootyEnemyProjectile : MonoBehaviour {
     {
         transform.position += transform.forward * Time.deltaTime * projectileSpeed;
         //transform.position = Vector3.MoveTowards(startPos, transform.forward, Time.deltaTime * projectileSpeed);
+    }
+
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.name == "Shield(Clone)")
+        {
+            Destroy(gameObject); 
+        }
+        if (col.gameObject.tag == "Walls")
+        {
+            Destroy(gameObject);
+        }
     }
 }
