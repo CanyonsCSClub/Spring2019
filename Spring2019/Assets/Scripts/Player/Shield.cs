@@ -62,7 +62,7 @@ public class Shield : MonoBehaviour
         }
         if (N)
         {
-            shieldposition.Set(NGO.position.x, NGO.position.y, NGO.position.z);
+            shieldposition.Set(NGO.position.x, NGO.position.y + 0.7f, NGO.position.z);
             shieldrotation = Quaternion.Euler(0, 90, 0);
         }
         if (E)
@@ -82,13 +82,9 @@ public class Shield : MonoBehaviour
         }
 
         if (Input.GetKeyDown("l"))                             //if the block button has been pressed(l)
-        {
-            //float shieldy = Player.transform.position.y;             
-            //float shieldx = Player.transform.position.x;
-            //float shieldz = Player.transform.position.z;
-            
+        {       
             clone = Instantiate(shieldInstance, shieldposition, shieldrotation); 
-            // clone.transform.parent = Player.transform;
+            clone.transform.parent = Player.transform;
         }
     }
 

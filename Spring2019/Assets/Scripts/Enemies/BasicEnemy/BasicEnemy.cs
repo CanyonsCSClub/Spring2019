@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BasicEnemy : MonoBehaviour
-{ 
+{
     public Vector3 enemyPos;       // location of enemy self
     public Vector3 playerPos;      // location of player
     public Vector3 nextPos;        // set location for enemy to move to
@@ -19,12 +19,13 @@ public class BasicEnemy : MonoBehaviour
     private Vector3 wanderRad;      // the radius around the wanderObj
 
     public float speed = 5;     // movement speed
+    public int damage = 5; 
 
-    private bool isTracking;    // player is in sight
-    private bool isWandering;   // enemy wanders aimlessly to pass the time.  He's a little bored. 
+    public bool isTracking;    // player is in sight
+    public bool isWandering;   // enemy wanders aimlessly to pass the time.  He's a little bored. 
 
     public GameObject animObj;
-    public float rotSpeed; 
+    public float rotSpeed;
 
     void Start()
     {
@@ -93,7 +94,6 @@ public class BasicEnemy : MonoBehaviour
             isWandering = false;                    // sets enemy to stop wandering
             isTracking = true;                      // sets enemy to follow player
         }
-
     }
 
     public void OnTriggerExit(Collider otherChar)               // detects player leaving radius around enemy
@@ -102,15 +102,6 @@ public class BasicEnemy : MonoBehaviour
         {
             isWandering = true;                                 // sets enemy to wander
             isTracking = false;                                 // sets enemy to stop following player
-        }
-    }
-
-    public void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            collision.gameObject.GetComponent<Health>().AddjustCurrentHealth(-5);
-            print("taking damage");
         }
     }
 
@@ -140,4 +131,52 @@ public class BasicEnemy : MonoBehaviour
             yield return new WaitForSeconds(10);                // enemy waits 10 seconds before choosing new position
         }
     }
+
+    #region Old
+    //private void OnCollisionEnter(Collision col)
+    //{
+
+    //    if (!colList.Contains(col))
+    //    {
+    //        colList.Add(col);
+    //    }
+
+    //    if (col.gameObject.name == "Player" && CheckList("Shield(Clone)") == false)
+    //    {
+    //        col.gameObject.GetComponent<Health>().ChangeHealth(-damage);
+    //    }
+
+    //    //if (col.gameObject.CompareTag("Player"))
+    //    //{
+    //    //    col.gameObject.GetComponent<Health>().ChangeHealth(-5);
+    //    //    print("taking damage");
+    //    //}
+    //}
+
+    //private void OnCollisionExit(Collision col)
+    //{
+    //    if (colList.Contains(col))
+    //    {
+    //        colList.Remove(col);
+    //    }
+    //}
+
+    //private bool CheckList(string objName)
+    //{
+    //    bool check = false;
+    //    for (int i = 0; i < colList.Count; i++)
+    //    {
+    //        if (colList[i].gameObject.name == objName)
+    //        {
+    //            check = true;
+    //            i = colList.Count;
+    //        }
+    //        else
+    //        {
+    //            check = false;
+    //        }
+    //    }
+    //    return check;
+    //}
+    #endregion
 }

@@ -40,8 +40,6 @@ public class CoreMovement : MonoBehaviour
     public AudioSource grassSteps;
     public bool playSteps;
 
-    public bool isWorking; 
-
     void Start()
     {
         playerRB = GetComponent<Rigidbody>(); // Set playerRB to the rigidbody of the object this script is attached to 
@@ -52,10 +50,6 @@ public class CoreMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey("s") && Input.GetKey("d") && Input.GetKey("l"))
-        {
-            isWorking = true;
-        }
         PlayerMovement();		// Every frame, run this method 
         AnimMeth();
         RotChar();

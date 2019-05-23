@@ -5,6 +5,7 @@
  * Description:     scripting for the big enemy
  */
 
+// #pragma strict
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -181,17 +182,15 @@ public class BigEnemy: MonoBehaviour
         attacking = true;
                                                                         //print("wind up");
         yield return new WaitForSeconds(.8f);
-
-                                                                        //print("attack sweep");
-        //sweepHitbox.GetComponent<Renderer>().enabled = true;
+        sweepHitbox.SetActive(true);
 
         yield return new WaitForSeconds(.2f);                           //active hitbox
-        //sweepHitbox.GetComponent<Renderer>().enabled = false;
+        sweepHitbox.gameObject.GetComponent<DamageCollider>().EmptyList();
+        sweepHitbox.SetActive(false); 
         yield return new WaitForSeconds(.7f);
-
+        
         GetComponent<Renderer>().material.color = Color.white;
                                                                         //print("end attack");
-        //attacking = false;
 
         StartCoroutine(CoolDown());
     }
@@ -205,6 +204,7 @@ public class BigEnemy: MonoBehaviour
                                                                         //print("wind up");
         yield return new WaitForSeconds(1f);
         //spinHitbox.GetComponent<Renderer>().enabled = true;
+        spinHitbox.SetActive(true);
         GetComponent<Renderer>().material.color = Color.yellow;
                                                                         //print("active hitbox");
 
@@ -213,7 +213,7 @@ public class BigEnemy: MonoBehaviour
             enemyRB.transform.Rotate(0, -20, 0, Space.Self);
             yield return new WaitForEndOfFrame();
         }
-
+        spinHitbox.SetActive(false);
         //spinHitbox.GetComponent<Renderer>().enabled = false;
         yield return new WaitForSeconds(1f);
         GetComponent<Renderer>().material.color = Color.white;
