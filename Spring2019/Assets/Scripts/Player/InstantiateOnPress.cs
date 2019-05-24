@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InstantiateOnPress : MonoBehaviour {
-
+public class InstantiateOnPress : MonoBehaviour
+{
     public GameObject arrowPrefab;
     public Transform playerPos;
     public float arrowSpeed;
@@ -17,10 +17,23 @@ public class InstantiateOnPress : MonoBehaviour {
     bool isEast = false;
     bool isWest = false;
 
-    void Update () {
+    private bool canShoot;
+    public float arrowCooldown = 0.5f; 
 
+    private void Start()
+    {
+        isNorth = true;
+        canShoot = true; 
+    }
 
+    IEnumerator Cooldown2()
+    {
+        yield return new WaitForSeconds(arrowCooldown);
+        canShoot = true; 
+    }
 
+    void Update ()
+    {
         if (Input.GetKeyDown("a"))
         {
             Debug.Log("a");
@@ -28,7 +41,6 @@ public class InstantiateOnPress : MonoBehaviour {
             isSouth = false;
             isEast = false;
             isWest = true;
-
         }
         if (Input.GetKeyDown("s"))
         {
@@ -37,7 +49,6 @@ public class InstantiateOnPress : MonoBehaviour {
             isSouth = true;
             isEast = false;
             isWest = false;
-
         }
         if (Input.GetKeyDown("w"))
         {
@@ -46,7 +57,6 @@ public class InstantiateOnPress : MonoBehaviour {
             isSouth = false;
             isEast = false;
             isWest = false;
-
         }
         if (Input.GetKeyDown("d"))
         {
@@ -55,17 +65,10 @@ public class InstantiateOnPress : MonoBehaviour {
             isSouth = false;
             isEast = true;
             isWest = false;
-
         }
 
-
-
-
-        if (Input.GetKeyDown("f"))
+        if (Input.GetKeyDown("k") && canShoot)
         {
-
-
-
             if (isNorth)
             {
                 Debug.Log("is north shoot");
@@ -90,6 +93,8 @@ public class InstantiateOnPress : MonoBehaviour {
                 var instArrow = (GameObject)Instantiate(arrowPrefab, arrowSpawnXminus.transform.position, new Quaternion(90, 90, 0, 0));
                 instArrow.GetComponent<Rigidbody>().AddForce(new Vector3(-arrowSpeed, 10, 0));
             }
+            canShoot = false;
+            StartCoroutine(Cooldown2()); 
         }
     }
 }

@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 114477659811194904}
   m_Layer: 0
   m_Name: MushRed
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -576,6 +576,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   TriggerList: []
+  dam: 0
 --- !u!135 &135278172389707642
 SphereCollider:
   m_ObjectHideFlags: 1

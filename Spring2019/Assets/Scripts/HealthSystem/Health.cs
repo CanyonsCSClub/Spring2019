@@ -20,6 +20,12 @@ public class Health : MonoBehaviour
         healthBarObj.GetComponent<HealthBar>().HealthGetter(health);
 
         displayHealth.text = "" + health.ToString();
+
+        if (health <= 0)
+        {
+            Destroy(healthBarObj); 
+            Destroy(gameObject); 
+        }
     }
 
     public void ChangeHealth(int adj)
