@@ -10,7 +10,7 @@ public class ItsATrap : MonoBehaviour {
 	{ 
 		if (collision.gameObject.CompareTag("Player")) 
 		{ 
-			collision.gameObject.GetComponent<Health>().AddjustCurrentHealth(-5); 
+			collision.gameObject.GetComponent<Health>().ChangeHealth(-5); 
 			print("taking damage"); 
 		} 
 	}
