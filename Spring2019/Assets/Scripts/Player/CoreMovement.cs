@@ -40,6 +40,8 @@ public class CoreMovement : MonoBehaviour
     public AudioSource grassSteps;
     public bool playSteps;
 
+    public bool hasShield; 
+
     void Start()
     {
         playerRB = GetComponent<Rigidbody>(); // Set playerRB to the rigidbody of the object this script is attached to 
@@ -50,7 +52,14 @@ public class CoreMovement : MonoBehaviour
 
     void Update()
     {
-        PlayerMovement();		// Every frame, run this method 
+        if (!hasShield)
+        {
+            PlayerMovement();       // Every frame, run this method 
+        }
+        else
+        {
+            PlayerMovementWithShield();
+        }
         AnimMeth();
         RotChar();
         AudioSteps();
@@ -64,10 +73,15 @@ public class CoreMovement : MonoBehaviour
         {
             grassSteps.Stop(); 
         }
-        else if (Input.GetKey("l"))
+        else if (Input.GetKey("l") && gameObject.GetComponent<UnlockSystem>().GetShieldStatus())
         {
             grassSteps.Stop();
         }
+    }
+
+    public void HasShieldTog()
+    {
+        hasShield = true; 
     }
 
     private void RotChar()  // controls where the character is facing
@@ -188,7 +202,7 @@ public class CoreMovement : MonoBehaviour
 
     private void AnimMeth() // Make Animations pretty pretty
     {
-        if (Input.GetKey("l"))
+        if (Input.GetKey("l") && gameObject.GetComponent<UnlockSystem>().GetShieldStatus())
         {
             anim.Play("Defend");
         }
@@ -219,6 +233,26 @@ public class CoreMovement : MonoBehaviour
     }
 
     private void PlayerMovement()
+    {
+        if (Input.GetKey("d")) 												// If player is pressing D and isGrounded is true... 
+        {
+            playerRB.transform.Translate(transform.right * Time.deltaTime * speed);			// move the player right "speed" fast 
+        }
+        if (Input.GetKey("s"))  												// If player is pressing S and isGrounded is true... 
+        {
+            playerRB.transform.Translate(-transform.forward * Time.deltaTime * speed);		// move the player backward "speed" fast 
+        }
+        if (Input.GetKey("w")) 												// If player is pressing W and isGrounded is true... 
+        {
+            playerRB.transform.Translate(transform.forward * Time.deltaTime * speed);		// move the player forward "speed" fast 
+        }
+        if (Input.GetKey("a")) 												// If player is pressing A and isGrounded is true... 
+        {
+            playerRB.transform.Translate(-transform.right * Time.deltaTime * speed);		// move the player left "speed" fast 
+        }
+    }
+
+    private void PlayerMovementWithShield()
     {
         if (Input.GetKey("d") && !Input.GetKey("l")) 												// If player is pressing D and isGrounded is true... 
         {

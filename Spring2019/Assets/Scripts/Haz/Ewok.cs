@@ -21,7 +21,7 @@ public class Ewok : MonoBehaviour
 			if(ewokTime == true)
             {
 				transform.Translate (transform.right * speed * Time.deltaTime); //pushes the player into trap or wall to kill them
-                Destroy(gameObject, 2f); 
+                Destroy(gameObject, 2.5f); 
 			}
 		}
 	}

@@ -17,6 +17,7 @@ public class BasicEnemy : MonoBehaviour
     public Rigidbody enemyBod;     // physical object variable for enemy self
     public GameObject wanderObj;    // the object you want the enemy to wander around
     private Vector3 wanderRad;      // the radius around the wanderObj
+    private GameObject player;
 
     public float speed = 5;     // movement speed
     public int damage = 5; 
@@ -27,9 +28,13 @@ public class BasicEnemy : MonoBehaviour
     public GameObject animObj;
     public float rotSpeed;
 
+    private float distanceToPlayer;
+    public float aggroRange; 
+
     void Start()
     {
         enemyBod = GetComponent<Rigidbody>();           // sets physical enemy form to enemyBod variable
+        player = GameObject.Find("Player");     //get the player
         enemyPos = enemyBod.position;                   // sets enemy position coordinates to enemyPos variable
         nextPos = enemyBod.position;                    // sets enemy position to nextPos variable
         wanderRad = new Vector3(wanderObj.transform.position.x, 1.5f, wanderObj.transform.position.z);
@@ -39,8 +44,15 @@ public class BasicEnemy : MonoBehaviour
         StartCoroutine(GenerateNewWanderPosition());    // Starts a coroutine which works in the background to designate positions for enemy to Wander to
     }
 
-    void Update()
+    void FixedUpdate()
     {
+        distanceToPlayer = DistanceFromPlayer();
+
+        if (distanceToPlayer < aggroRange)
+        { isTracking = true; }
+        else
+        { isTracking = false; }
+
         if (isTracking)             // enemy is looking for the player. enemy is lonely
         {
             MoveTowardsPlayer();    // if enemy sees the player, enemy moves toward the player.  enemy likes hugs
@@ -87,22 +99,9 @@ public class BasicEnemy : MonoBehaviour
         transform.position = Vector3.MoveTowards(enemyPos, nextPos, Time.deltaTime * speed);    // moves enemy to position designated by nextPos variable
     }
 
-    public void OnTriggerEnter(Collider otherChar)  // detects player entering radius around enemy
+    float DistanceFromPlayer()
     {
-        if (otherChar.tag == "Player")              // checks tag of entering object to see if it's the player
-        {
-            isWandering = false;                    // sets enemy to stop wandering
-            isTracking = true;                      // sets enemy to follow player
-        }
-    }
-
-    public void OnTriggerExit(Collider otherChar)               // detects player leaving radius around enemy
-    {
-        if (otherChar.tag == "Player")                          // checks tag of exiting object to see if it's the player
-        {
-            isWandering = true;                                 // sets enemy to wander
-            isTracking = false;                                 // sets enemy to stop following player
-        }
+        return Vector3.Distance(player.transform.position, enemyBod.transform.position);
     }
 
     IEnumerator GenerateNewWanderPosition()                     // coroutine to set locations for enemy to wander to
