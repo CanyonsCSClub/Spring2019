@@ -9382,6 +9382,11 @@ Prefab:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 64650435401665154, guid: 2a3136a15ceb5f74e887aa6837bfd22d,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2a3136a15ceb5f74e887aa6837bfd22d, type: 2}
   m_IsPrefabParent: 0
@@ -9965,6 +9970,62 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3a2ac2d2eee743c4b85019e0db397bbc, type: 2}
+  m_IsPrefabParent: 0
+--- !u!1001 &214146934
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4835916580350878, guid: f9cd892c48816e445926d1307206aec5, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 19.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 4835916580350878, guid: f9cd892c48816e445926d1307206aec5, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 4835916580350878, guid: f9cd892c48816e445926d1307206aec5, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 8.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 4835916580350878, guid: f9cd892c48816e445926d1307206aec5, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4835916580350878, guid: f9cd892c48816e445926d1307206aec5, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4835916580350878, guid: f9cd892c48816e445926d1307206aec5, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4835916580350878, guid: f9cd892c48816e445926d1307206aec5, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4835916580350878, guid: f9cd892c48816e445926d1307206aec5, type: 2}
+      propertyPath: m_RootOrder
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 114510828191313784, guid: f9cd892c48816e445926d1307206aec5,
+        type: 2}
+      propertyPath: displayHealth
+      value: 
+      objectReference: {fileID: 1096374593}
+    - target: {fileID: 114090978952732968, guid: f9cd892c48816e445926d1307206aec5,
+        type: 2}
+      propertyPath: wanderObj
+      value: 
+      objectReference: {fileID: 459907618}
+    - target: {fileID: 1822325520529448, guid: f9cd892c48816e445926d1307206aec5, type: 2}
+      propertyPath: m_Name
+      value: MushRed
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: f9cd892c48816e445926d1307206aec5, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &215280056
 Prefab:
@@ -20791,6 +20852,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3e5dcb74503b12147b1548ad6ed38875, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &459907618 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1822325520529448, guid: f9cd892c48816e445926d1307206aec5,
+    type: 2}
+  m_PrefabInternal: {fileID: 214146934}
 --- !u!4 &460368406 stripped
 Transform:
   m_PrefabParentObject: {fileID: 430480, guid: 3a2ac2d2eee743c4b85019e0db397bbc, type: 2}
@@ -29887,6 +29953,11 @@ Prefab:
     - target: {fileID: 23965467256303056, guid: 02b9410c75435ed499a70e535cfd86d0,
         type: 2}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 65550899171777004, guid: 02b9410c75435ed499a70e535cfd86d0,
+        type: 2}
+      propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -79798,7 +79869,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1614435227}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3ac7829f1bca09479614ee9d2aaf3e7, type: 3}
   m_Name: 

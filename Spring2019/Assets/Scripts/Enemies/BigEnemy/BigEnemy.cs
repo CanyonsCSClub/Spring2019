@@ -40,7 +40,16 @@ public class BigEnemy: MonoBehaviour
     public float CoolDownTime;
 
     public Animator animator;
-    
+
+    public bool isSweeping;
+    public bool isSpinning;
+
+    private Coroutine lastCo = null;
+    private Coroutine AtkCo = null; 
+    public bool wasHit;
+
+    public bool isDead; 
+
     void Start()
     {
         enemyRB = GetComponent<Rigidbody>();    //get this (enemy) object
@@ -59,29 +68,32 @@ public class BigEnemy: MonoBehaviour
 
     void FixedUpdate()
     {
-        playerPos = player.transform.position;
-        distanceToPlayer = DistanceFromPlayer();
-
-        animator.SetBool("moving forward", false);                      //I wasn't sure how to rig the animations properly. it works but dont follow my example because i might be wrong.
-        animator.SetBool("rotating", false);
-        animator.SetBool("CoolDown", coolDown);
-        
-        if (attacking == false)                                        //stops everything while attacking if attacking is true
+        if (!isDead)
         {
-            if (distanceToPlayer < aggroRange)                         //player is very close to the enemy, enemy is annoyed with you ever since that prank you pulled that last Christmas party 
+            playerPos = player.transform.position;
+            distanceToPlayer = DistanceFromPlayer();
+
+            animator.SetBool("moving forward", false);                      //I wasn't sure how to rig the animations properly. it works but dont follow my example because i might be wrong.
+            animator.SetBool("rotating", false);
+            animator.SetBool("CoolDown", coolDown);
+
+            if (attacking == false)                                        //stops everything while attacking if attacking is true
             {
-                animator.SetBool("in range", true);
-                MoveToTarget(playerPos);                               //Move towards the player
-            }
+                if (distanceToPlayer < aggroRange)                         //player is very close to the enemy, enemy is annoyed with you ever since that prank you pulled that last Christmas party 
+                {
+                    animator.SetBool("in range", true);
+                    MoveToTarget(playerPos);                               //Move towards the player
+                }
 
-            else
-            {
-                animator.SetBool("in range", false);
+                else
+                {
+                    animator.SetBool("in range", false);
 
-                MoveToTarget(nextPos);
+                    MoveToTarget(nextPos);
 
 
-                //idle
+                    //idle
+                }
             }
         }
     }
@@ -173,9 +185,44 @@ public class BigEnemy: MonoBehaviour
         return Vector3.Distance(player.transform.position, enemyRB.transform.position);
     }
 
+    public void StartHit()
+    {
+        if (!wasHit)
+        {
+            // StopCoroutine(lastCo);
+            lastCo = StartCoroutine(GetHit());
+        }
+        else if (wasHit)
+        {
+            StopCoroutine(lastCo);
+            wasHit = true;
+            lastCo = StartCoroutine(GetHit());
+        }
+    }
+
+    IEnumerator GetHit()
+    {
+        wasHit = true; 
+        if (isSweeping)
+        {
+            StopCoroutine(AttackSweep());
+            isSweeping = false; 
+        }
+        if (isSpinning)
+        {
+            StopCoroutine(AttackSpin());
+            isSpinning = false; 
+        }
+        animator.Play("GetHit");
+        yield return new WaitForSeconds(.7f);
+        animator.Play("Idle");
+        wasHit = false;
+        // lastCo = null;
+    }
 
     IEnumerator AttackSweep()                                           //using coroutines to make attack sequences. Coroutines allow the sequence to have timing delays.
     {
+        isSweeping = true; 
         animator.SetTrigger("sweep attack");
 
         GetComponent<Renderer>().material.color = Color.red;
@@ -191,12 +238,14 @@ public class BigEnemy: MonoBehaviour
         
         GetComponent<Renderer>().material.color = Color.white;
                                                                         //print("end attack");
-
         StartCoroutine(CoolDown());
+        isSweeping = false;
+        // lastCo = null; 
     }
 
     IEnumerator AttackSpin()
     {
+        isSpinning = true; 
         animator.SetTrigger("spin attack");
 
         GetComponent<Renderer>().material.color = Color.yellow;
@@ -219,6 +268,8 @@ public class BigEnemy: MonoBehaviour
         GetComponent<Renderer>().material.color = Color.white;
                                                                         //print("end attack");
         StartCoroutine(CoolDown());
+        isSpinning = false;
+        // lastCo = null; 
     }
 
     void attackOverhead1()
@@ -265,5 +316,22 @@ public class BigEnemy: MonoBehaviour
             nextPos = new Vector3(moveX, enemyPos.y, moveZ);    // updates nextPos variable with randomly chosen coordinates
             yield return new WaitForSeconds(10);                // enemy waits 10 seconds before choosing new position
         }
+    }
+
+    public void StartDeath()
+    {
+        enemyRB.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
+        StopAllCoroutines();
+        StartCoroutine(Dieing()); 
+    }
+
+    IEnumerator Dieing()
+    {
+        isDead = true;
+        animator.enabled = false;
+        animator.enabled = true;
+        animator.Play("Die"); 
+        yield return new WaitForSeconds(2);
+        Destroy(gameObject);
     }
 }

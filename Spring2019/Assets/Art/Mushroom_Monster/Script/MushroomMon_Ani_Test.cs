@@ -29,10 +29,10 @@ public class MushroomMon_Ani_Test : MonoBehaviour {
 	}
 
 	public void DamageAni (){
-		anim.CrossFade (DAMAGE);
+		anim.Play (DAMAGE);
 	}
 
 	public void DeathAni (){
-		anim.CrossFade (DEATH);
+		anim.Play (DEATH);
 	}
 }

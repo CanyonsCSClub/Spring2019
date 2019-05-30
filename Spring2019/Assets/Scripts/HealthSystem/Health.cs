@@ -8,7 +8,14 @@ public class Health : MonoBehaviour
 	public int health = 100;
     public int maxHealth = 100;
     public Text displayHealth;
-    public GameObject healthBarObj; 
+    public GameObject healthBarObj;
+    private Rigidbody rb;
+    private bool isDead; 
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     void Update()
     {
@@ -23,8 +30,36 @@ public class Health : MonoBehaviour
 
         if (health <= 0)
         {
-            Destroy(healthBarObj); 
-            Destroy(gameObject); 
+            if (gameObject.name == "Orc")
+            {
+                gameObject.GetComponent<BigEnemy>().StartDeath();
+                Destroy(healthBarObj);
+                gameObject.GetComponent<Health>().enabled = false; 
+            }
+            if (gameObject.name == "ShootyEnemy")
+            {
+                gameObject.GetComponent<ShootyEnemy>().StartDeath();
+                Destroy(healthBarObj);
+                gameObject.GetComponent<Health>().enabled = false;
+            }
+            if (gameObject.name == "MushRed")
+            {
+                gameObject.GetComponent<BasicEnemy>().StartDeath();
+                Destroy(healthBarObj);
+                gameObject.GetComponent<Health>().enabled = false;
+            }
+            if (gameObject.name == "MushGreen")
+            {
+                gameObject.GetComponent<BasicEnemy>().StartDeath();
+                Destroy(healthBarObj);
+                gameObject.GetComponent<Health>().enabled = false;
+            }
+            if (gameObject.name == "MushBlue")
+            {
+                gameObject.GetComponent<BasicEnemy>().StartDeath();
+                Destroy(healthBarObj);
+                gameObject.GetComponent<Health>().enabled = false;
+            }
         }
     }
 

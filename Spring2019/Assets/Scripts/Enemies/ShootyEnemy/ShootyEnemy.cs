@@ -38,63 +38,71 @@ public class ShootyEnemy : MonoBehaviour
 
     public GameObject anim;
 
+    private Coroutine lastCo = null;
+    private Coroutine atkCo = null; 
+    public bool wasHit;
+
+    public bool isDead; 
+
     void Start()
     {
         enemyRB = GetComponent<Rigidbody>();    //get this (enemy) object
         player = GameObject.Find("Player");     //get the player
     }
 
-
-    void Update()
+    void FixedUpdate()
     {
-        playerPos = player.transform.position;
-        enemyPos = transform.position;
-
-        if (!isRunningAway && !isShooting)
+        if (!isDead)
         {
+            playerPos = player.transform.position;
+            enemyPos = transform.position;
 
-            if (DistanceFromPlayer() < triggerEscape)
+            if (!isRunningAway && !isShooting)
             {
-                StartCoroutine(RunAway());
+
+                if (DistanceFromPlayer() < triggerEscape)
+                {
+                    StartCoroutine(RunAway());
+                }
+
+                else if (DistanceFromPlayer() < shootRange && !wasHit)
+                {
+                    //RotateToTarget(playerPos);
+                    atkCo = StartCoroutine(Shoot());
+                }
+
+                else
+                {
+                    //idle
+                    anim.GetComponent<Animation>().CrossFade("Anim_Idle");
+                }
             }
 
-            else if (DistanceFromPlayer() < shootRange)
+            if (isShooting)
             {
-                //RotateToTarget(playerPos);
-                StartCoroutine(Shoot());
+                switch (difficulty)
+                {
+                    case 0:
+                        RotateToTarget(playerPos);
+                        break;
+                    case 1:
+                        RotateLeadTarget(playerPos, enemyPos);
+                        break;
+                    default:
+                        RotateToTarget(playerPos);
+                        break;
+                }
+
             }
 
-            else
+            if (isRunningAway)
             {
-                //idle
-                anim.GetComponent<Animation>().CrossFade("Anim_Idle");
+                RotateToTarget(runPos);
+                MoveForward();
             }
+
+            previousPos = playerPos;
         }
-
-        if (isShooting)
-        {
-            switch(difficulty)
-            {
-                case 0:
-                    RotateToTarget(playerPos);
-                    break;
-                case 1:
-                    RotateLeadTarget(playerPos, enemyPos);
-                    break;
-                default:
-                    RotateToTarget(playerPos);
-                    break;
-            }
-            
-        }
-
-        if (isRunningAway)
-        {
-            RotateToTarget(runPos);
-            MoveForward();
-        }
-
-        previousPos = playerPos;
     }
 
     void RotateToTarget(Vector3 target)                                                         //this function rotates the enemy towards the player based on rotationSpeed
@@ -172,6 +180,34 @@ public class ShootyEnemy : MonoBehaviour
         return Vector3.Distance(player.transform.position, enemyRB.transform.position);
     }
 
+    public void StartHit()
+    {
+        if (!wasHit)
+        {
+            lastCo = StartCoroutine(GetHit());
+        }
+        else if (wasHit)
+        {
+            StopCoroutine(lastCo);
+            wasHit = true;
+            lastCo = StartCoroutine(GetHit());
+        }
+    }
+
+    IEnumerator GetHit()
+    {
+        wasHit = true;
+        if (isShooting)
+        {
+            StopCoroutine(atkCo);
+            isShooting = false;
+        }
+        anim.GetComponent<Animation>().Play("Anim_Death");
+        yield return new WaitForSeconds(.7f);
+        anim.GetComponent<Animation>().CrossFade("Anim_Idle");
+        wasHit = false;
+        // lastCo = null;
+    }
 
     IEnumerator Shoot()                                             //simply instantiate a projectile, the projectile does the moving by itself
     {
@@ -217,5 +253,22 @@ public class ShootyEnemy : MonoBehaviour
 
             yield return new WaitForSeconds(escapeSeconds);
         isRunningAway = false;
+    }
+
+    public void StartDeath()
+    {
+        enemyRB.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
+        StopAllCoroutines();
+        StartCoroutine(Dieing());
+    }
+
+    IEnumerator Dieing()
+    {
+        isDead = true;
+        anim.GetComponent<Animation>().enabled = false;
+        anim.GetComponent<Animation>().enabled = true;
+        anim.GetComponent<Animation>().Play("Anim_Death");
+        yield return new WaitForSeconds(2);
+        Destroy(gameObject);
     }
 }

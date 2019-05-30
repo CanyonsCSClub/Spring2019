@@ -29,7 +29,13 @@ public class BasicEnemy : MonoBehaviour
     public float rotSpeed;
 
     private float distanceToPlayer;
-    public float aggroRange; 
+    public float aggroRange;
+
+    public bool wasHit; 
+
+    private Coroutine lastCo = null;
+
+    public bool isDead; 
 
     void Start()
     {
@@ -46,29 +52,32 @@ public class BasicEnemy : MonoBehaviour
 
     void FixedUpdate()
     {
-        distanceToPlayer = DistanceFromPlayer();
+        if (!isDead)
+        {
+            distanceToPlayer = DistanceFromPlayer();
 
-        if (distanceToPlayer < aggroRange)
-        { isTracking = true; }
-        else
-        { isTracking = false; }
+            if (distanceToPlayer < aggroRange)
+            { isTracking = true; }
+            else
+            { isTracking = false; }
 
-        if (isTracking)             // enemy is looking for the player. enemy is lonely
-        {
-            MoveTowardsPlayer();    // if enemy sees the player, enemy moves toward the player.  enemy likes hugs
-            animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().RunAni();
-            RotateToTarget(playerPos); 
-        }
-        else if (enemyPos.x == nextPos.x && enemyPos.z == nextPos.z)       // enemy starts wandering around if the player is not nearby.  standing around doing nothing all day sucks.
-        {
-            Wander();
-            animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().IdleAni();
-        }
-        else if (enemyPos.x != nextPos.x && enemyPos.z != nextPos.z)
-        {
-            Wander();
-            animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().RunAni();
-            RotateToTarget(nextPos); 
+            if (isTracking)             // enemy is looking for the player. enemy is lonely
+            {
+                MoveTowardsPlayer();    // if enemy sees the player, enemy moves toward the player.  enemy likes hugs
+                animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().RunAni();
+                RotateToTarget(playerPos);
+            }
+            else if (enemyPos.x == nextPos.x && enemyPos.z == nextPos.z)       // enemy starts wandering around if the player is not nearby.  standing around doing nothing all day sucks.
+            {
+                Wander();
+                animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().IdleAni();
+            }
+            else if (enemyPos.x != nextPos.x && enemyPos.z != nextPos.z)
+            {
+                Wander();
+                animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().RunAni();
+                RotateToTarget(nextPos);
+            }
         }
     }
 
@@ -96,12 +105,39 @@ public class BasicEnemy : MonoBehaviour
         enemyPos = enemyBod.position;                                                           // updates enemyPos variable with current enemy position
         playerPos = GameObject.Find("Player").GetComponent<Transform>().position;               // finds location of player object and sets it to playerPos variable
         nextPos = new Vector3(playerPos.x, enemyPos.y, playerPos.z);                            // sets x, y, and z coordinates from playerPos variable to nextPos variable
-        transform.position = Vector3.MoveTowards(enemyPos, nextPos, Time.deltaTime * speed);    // moves enemy to position designated by nextPos variable
+        if (!wasHit)
+        {
+            transform.position = Vector3.MoveTowards(enemyPos, nextPos, Time.deltaTime * speed);    // moves enemy to position designated by nextPos variable
+        }
     }
 
     float DistanceFromPlayer()
     {
         return Vector3.Distance(player.transform.position, enemyBod.transform.position);
+    }
+
+    public void StartHit()
+    {
+        if (!wasHit)
+        {
+            lastCo = StartCoroutine(GetHit());
+        }
+        else if (wasHit)
+        {
+            StopCoroutine(lastCo);
+            wasHit = true;
+            lastCo = StartCoroutine(GetHit());
+        }
+    }
+
+    IEnumerator GetHit()
+    {
+        float myTime = Time.time;
+        wasHit = true;
+        animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().DamageAni();
+        yield return new WaitForSeconds(0.7f);
+        animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().IdleAni();
+        wasHit = false;
     }
 
     IEnumerator GenerateNewWanderPosition()                     // coroutine to set locations for enemy to wander to
@@ -129,6 +165,23 @@ public class BasicEnemy : MonoBehaviour
             nextPos = new Vector3(moveX, enemyPos.y, moveZ);    // updates nextPos variable with randomly chosen coordinates
             yield return new WaitForSeconds(10);                // enemy waits 10 seconds before choosing new position
         }
+    }
+
+    public void StartDeath()
+    {
+        enemyBod.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
+        StopAllCoroutines();
+        StartCoroutine(Dieing());
+    }
+
+    IEnumerator Dieing()
+    {
+        isDead = true;
+        animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().enabled = false;
+        animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().enabled = false;
+        animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().DeathAni();
+        yield return new WaitForSeconds(2);
+        Destroy(gameObject);
     }
 
     #region Old
