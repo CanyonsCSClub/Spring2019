@@ -1,5 +1,5 @@
 ﻿/*
- * Programmer:   Gerardo Bonnet based on code by Spencer Wilson
+ * Programmer:   Gerardo Bonnet, partly based on code by Spencer Wilson, Hunter Goodin, and Darrell Wong
  * Date Created: 03/15/2019 @  11:30 PM 
  * Last Updated: 03/21/2019 @  08:26 PM by Hunter Goodin
  * File Name:    CoreMovement.cs 
