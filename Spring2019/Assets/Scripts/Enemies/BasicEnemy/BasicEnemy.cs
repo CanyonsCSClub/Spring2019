@@ -31,7 +31,9 @@ public class BasicEnemy : MonoBehaviour
     private float distanceToPlayer;
     public float aggroRange;
 
-    public bool wasHit; 
+    public bool wasHit;
+    public bool recentHit;
+    public bool invincibilityRun;
 
     private Coroutine lastCo = null;
 
@@ -47,6 +49,7 @@ public class BasicEnemy : MonoBehaviour
         // I made a wander radius object so the enemy will only wander in roughly the same area, and even return to that area when it loses track of the player like some game do it. 
         // Otherwise we COULD set the wanderObj to be the same as itself and it'll function the same as before. But idk, I like the idea that it only wanders in roughly the same area. 
         isWandering = true;
+        recentHit = false;
         StartCoroutine(GenerateNewWanderPosition());    // Starts a coroutine which works in the background to designate positions for enemy to Wander to
     }
 
@@ -134,6 +137,7 @@ public class BasicEnemy : MonoBehaviour
     {
         float myTime = Time.time;
         wasHit = true;
+        StartCoroutine(InvincibilityFrames());
         animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().DamageAni();
         yield return new WaitForSeconds(0.7f);
         animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().IdleAni();
@@ -183,6 +187,18 @@ public class BasicEnemy : MonoBehaviour
         yield return new WaitForSeconds(2);
         Destroy(gameObject);
     }
+
+    IEnumerator InvincibilityFrames()                           //GERARDO START
+    {
+        if (!recentHit)
+        {
+            recentHit = true;
+            gameObject.GetComponent<Health>().invincible = true;
+            yield return new WaitForSeconds(1);
+            gameObject.GetComponent<Health>().invincible = false;
+            recentHit = false;
+        }
+    }                                                           //GERARDO END
 
     #region Old
     //private void OnCollisionEnter(Collision col)
