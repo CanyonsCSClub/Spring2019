@@ -47,6 +47,7 @@ public class BigEnemy: MonoBehaviour
     private Coroutine lastCo = null;
     private Coroutine AtkCo = null; 
     public bool wasHit;
+    public bool recentHit;
 
     public bool isDead; 
 
@@ -62,6 +63,7 @@ public class BigEnemy: MonoBehaviour
         // I made a wander radius object so the enemy will only wander in roughly the same area, and even return to that area when it loses track of the player like some game do it. 
         // Otherwise we COULD set the wanderObj to be the same as itself and it'll function the same as before. But idk, I like the idea that it only wanders in roughly the same area. 
         isWandering = true;
+        recentHit = false;
         StartCoroutine(GenerateNewWanderPosition());    // Starts a coroutine which works in the background to designate positions for enemy to Wander to
     }
 
@@ -202,7 +204,8 @@ public class BigEnemy: MonoBehaviour
 
     IEnumerator GetHit()
     {
-        wasHit = true; 
+        wasHit = true;
+        StartCoroutine(InvincibilityFrames());
         if (isSweeping)
         {
             StopCoroutine(AttackSweep());
@@ -334,4 +337,16 @@ public class BigEnemy: MonoBehaviour
         yield return new WaitForSeconds(2);
         Destroy(gameObject);
     }
+
+    IEnumerator InvincibilityFrames()                           //GERARDO START
+    {
+        if (!recentHit)
+        {
+            recentHit = true;
+            gameObject.GetComponent<Health>().invincible = true;
+            yield return new WaitForSeconds(.6f);
+            gameObject.GetComponent<Health>().invincible = false;
+            recentHit = false;
+        }
+    }                                                           //GERARDO END
 }

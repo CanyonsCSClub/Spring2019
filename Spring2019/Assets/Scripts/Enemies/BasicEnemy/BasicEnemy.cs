@@ -33,7 +33,6 @@ public class BasicEnemy : MonoBehaviour
 
     public bool wasHit;
     public bool recentHit;
-    public bool invincibilityRun;
 
     private Coroutine lastCo = null;
 
@@ -194,7 +193,7 @@ public class BasicEnemy : MonoBehaviour
         {
             recentHit = true;
             gameObject.GetComponent<Health>().invincible = true;
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(.6f);
             gameObject.GetComponent<Health>().invincible = false;
             recentHit = false;
         }

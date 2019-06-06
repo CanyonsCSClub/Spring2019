@@ -41,6 +41,7 @@ public class ShootyEnemy : MonoBehaviour
     private Coroutine lastCo = null;
     private Coroutine atkCo = null; 
     public bool wasHit;
+    public bool recentHit;
 
     public bool isDead; 
 
@@ -197,6 +198,7 @@ public class ShootyEnemy : MonoBehaviour
     IEnumerator GetHit()
     {
         wasHit = true;
+        StartCoroutine(InvincibilityFrames());
         if (isShooting)
         {
             StopCoroutine(atkCo);
@@ -271,4 +273,16 @@ public class ShootyEnemy : MonoBehaviour
         yield return new WaitForSeconds(2);
         Destroy(gameObject);
     }
+
+    IEnumerator InvincibilityFrames()                           //GERARDO START
+    {
+        if (!recentHit)
+        {
+            recentHit = true;
+            gameObject.GetComponent<Health>().invincible = true;
+            yield return new WaitForSeconds(.6f);
+            gameObject.GetComponent<Health>().invincible = false;
+            recentHit = false;
+        }
+    }                                                           //GERARDO END
 }
