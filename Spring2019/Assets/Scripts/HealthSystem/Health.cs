@@ -16,7 +16,7 @@ public class Health : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        invincible = false;                                                                 //GERARDO EDIT
+        invincible = false;  //GERARDO EDIT
     }
 
     void Update()
@@ -68,6 +68,11 @@ public class Health : MonoBehaviour
                 Destroy(healthBarObj);
                 gameObject.GetComponent<Health>().enabled = false;
             }
+            if (gameObject.name == "Player")
+            {
+                gameObject.GetComponent<CoreMovement>().MakeDead();
+                StartCoroutine(LoadDeathMenu()); 
+            }
         }
     }
 
@@ -77,5 +82,11 @@ public class Health : MonoBehaviour
         {
             health = health + adj;
         }
+    }
+
+    IEnumerator LoadDeathMenu()
+    {
+        yield return new WaitForSeconds(2f); 
+        Application.LoadLevel("Hunter-DeathScreen");
     }
 }

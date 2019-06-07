@@ -6,10 +6,12 @@ public class SwordDamage : MonoBehaviour
 {
     public List<Collider> TriggerList = new List<Collider>();
     private int damage = 50;
-    private int bossDam = 10; 
+    private int bossDam = 10;
+    private Vector3 direction;
 
     void OnTriggerEnter(Collider col)
     {
+        direction = (col.transform.position - GameObject.Find("Player").transform.position).normalized;
         if (col.gameObject.tag == "Enemy" && CheckList(col.gameObject.name) == false)
         {
             if (!TriggerList.Contains(col))
@@ -31,6 +33,8 @@ public class SwordDamage : MonoBehaviour
             {
                 col.gameObject.GetComponent<BasicEnemy>().StartHit();
             }
+
+            col.GetComponent<Rigidbody>().AddForce(direction * 500);
         }
         if (col.gameObject.tag == "Boss" && CheckList(col.gameObject.name) == false)
         {

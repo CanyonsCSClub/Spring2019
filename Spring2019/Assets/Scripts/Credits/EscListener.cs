@@ -8,7 +8,7 @@ public class EscListener : MonoBehaviour
     {
 		if (Input.GetKey(KeyCode.Escape))
         {
-            Application.LoadLevel(0);
+            Application.LoadLevel("Madian-MainMenu");
         }
     }
 }

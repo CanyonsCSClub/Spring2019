@@ -6,7 +6,6 @@ public class PauseM : MonoBehaviour {
 
 	public static bool GameIsPaused = false;
 	public GameObject PauseMenuUI;
-	
 
 	void Update () {
 

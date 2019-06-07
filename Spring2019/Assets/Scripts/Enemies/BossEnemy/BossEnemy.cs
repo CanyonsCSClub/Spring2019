@@ -174,12 +174,13 @@ public class BossEnemy : MonoBehaviour
 
     public void StartDeath()
     {
-        StopCoroutine(lastCo); 
+        thisRB.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
+        StopAllCoroutines();
         isActive = false;
         isDead = true; 
-        ClearAllAnim(); 
+        ClearAllAnim();
+        StartCoroutine(Death()); 
         anim.SetBool("die", true);
-        Destroy(gameObject, 5);
     }
 
     public bool IsBossDead()
@@ -261,5 +262,11 @@ public class BossEnemy : MonoBehaviour
         cooldown = false;
         testingFlare = false;
         testingGrdPnd = false;
+    }
+
+    IEnumerator Death()
+    {
+        yield return new WaitForSeconds(4f); 
+        Application.LoadLevel("Hunter-WinScreen");
     }
 }

@@ -64,6 +64,7 @@ public class BigEnemy: MonoBehaviour
         // Otherwise we COULD set the wanderObj to be the same as itself and it'll function the same as before. But idk, I like the idea that it only wanders in roughly the same area. 
         isWandering = true;
         recentHit = false;
+        nextPos = gameObject.GetComponent<Transform>().position; 
         StartCoroutine(GenerateNewWanderPosition());    // Starts a coroutine which works in the background to designate positions for enemy to Wander to
     }
 
@@ -86,7 +87,7 @@ public class BigEnemy: MonoBehaviour
                     MoveToTarget(playerPos);                               //Move towards the player
                 }
 
-                else
+                else if (distanceToPlayer > aggroRange)
                 {
                     animator.SetBool("in range", false);
                     MoveToTarget(nextPos);
@@ -294,9 +295,13 @@ public class BigEnemy: MonoBehaviour
         float moveX = 0.0f;
         float moveZ = 0.0f;
         int rand = 0;
+        int randSec = 0; 
 
         while (0 < 1)
         {
+            randSec = Random.Range(5, 10);
+            yield return new WaitForSeconds(randSec);                // enemy waits 10 seconds before choosing new position
+
             enemyPos = enemyRB.position;                       // updates enemyPos variable with current enemy location
 
             rand = Random.Range(0, 2);                          // randomly chooses whether enemy moves in positive or negative x direction.
@@ -312,7 +317,6 @@ public class BigEnemy: MonoBehaviour
             { moveZ = wanderRad.z + Random.Range(3, 7); }
 
             nextPos = new Vector3(moveX, enemyPos.y, moveZ);    // updates nextPos variable with randomly chosen coordinates
-            yield return new WaitForSeconds(10);                // enemy waits 10 seconds before choosing new position
         }
     }
 

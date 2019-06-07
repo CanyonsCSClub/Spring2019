@@ -1095,7 +1095,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1651774046500246}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1129,7 +1129,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1531631800909046}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1280,7 +1280,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   TriggerList: []
+  cleanList: []
   dam: 0
+  direction: {x: 0, y: 0, z: 0}
 --- !u!114 &114365797389064642
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1294,7 +1296,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   TriggerList: []
+  cleanList: []
   dam: 0
+  direction: {x: 0, y: 0, z: 0}
 --- !u!114 &114432331967168572
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1334,6 +1338,7 @@ MonoBehaviour:
   maxHealth: 100
   displayHealth: {fileID: 0}
   healthBarObj: {fileID: 1118063443998564}
+  invincible: 0
 --- !u!114 &114799499136648822
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1347,7 +1352,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spinHitbox: {fileID: 1531631800909046}
   sweepHitbox: {fileID: 1651774046500246}
-  wanderObj: {fileID: 1996037640727578}
+  wanderObj: {fileID: 0}
   rotationSpeed: 3
   forwardSpeed: 2.5
   backwardSpeed: 2
@@ -1357,6 +1362,11 @@ MonoBehaviour:
   backCone: 130
   CoolDownTime: 0
   animator: {fileID: 95977378406686534}
+  isSweeping: 0
+  isSpinning: 0
+  wasHit: 0
+  recentHit: 0
+  isDead: 0
 --- !u!114 &114984873855952698
 MonoBehaviour:
   m_ObjectHideFlags: 1

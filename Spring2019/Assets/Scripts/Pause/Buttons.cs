@@ -16,9 +16,9 @@ public class Buttons : MonoBehaviour
     {
         // isWork = true; 
         Time.timeScale = 1f;
-        Application.LoadLevel(1); 
+        Application.LoadLevel("Madian-MainMenu");
 
-	}
+    }
 
     public void Resume()
     {

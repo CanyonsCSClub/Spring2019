@@ -59,8 +59,8 @@ public class ShootyEnemy : MonoBehaviour
         // I made a wander radius object so the enemy will only wander in roughly the same area, and even return to that area when it loses track of the player like some game do it. 
         // Otherwise we COULD set the wanderObj to be the same as itself and it'll function the same as before. But idk, I like the idea that it only wanders in roughly the same area. 
         isWandering = true;
+        nextPos = gameObject.GetComponent<Transform>().position;
         StartCoroutine(GenerateNewWanderPosition());
-        nextPos = wanderRad; 
     }
 
     void FixedUpdate()
@@ -303,9 +303,13 @@ public class ShootyEnemy : MonoBehaviour
         float moveX = 0.0f;
         float moveZ = 0.0f;
         int rand = 0;
+        int randSec = 0;
 
         while (0 < 1)
         {
+            randSec = Random.Range(5, 10);
+            yield return new WaitForSeconds(randSec);                // enemy waits 10 seconds before choosing new position
+
             enemyPos = enemyRB.position;                       // updates enemyPos variable with current enemy location
 
             rand = Random.Range(0, 2);                          // randomly chooses whether enemy moves in positive or negative x direction.
@@ -321,7 +325,6 @@ public class ShootyEnemy : MonoBehaviour
             { moveZ = wanderRad.z + Random.Range(3, 7); }
 
             nextPos = new Vector3(moveX, enemyPos.y, moveZ);    // updates nextPos variable with randomly chosen coordinates
-            yield return new WaitForSeconds(10);                // enemy waits 10 seconds before choosing new position
         }
     }
 }

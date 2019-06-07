@@ -12,7 +12,7 @@ public class BossFire : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>(); 
         playerPos = GameObject.Find("Player").GetComponent<Transform>().position;
-        Destroy(gameObject, 3f); 
+        Destroy(gameObject, 2f); 
 	}
 
 	void Update ()

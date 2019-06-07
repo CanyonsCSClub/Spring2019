@@ -199,6 +199,7 @@ MonoBehaviour:
   TriggerList: []
   cleanList: []
   dam: 0
+  direction: {x: 0, y: 0, z: 0}
 --- !u!114 &114795342840695466
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -210,7 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c77e265a0561a8c4f80797cd6d4c74af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
+  speed: 5
   playerPos: {x: 0, y: 0, z: 0}
 --- !u!135 &135168430654160940
 SphereCollider:

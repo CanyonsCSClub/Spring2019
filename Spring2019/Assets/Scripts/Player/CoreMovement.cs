@@ -16,12 +16,12 @@ public class CoreMovement : MonoBehaviour
     public float airSpeed = 5; 		// How fast the player moves in the air 
     public int jumpForce = 10; 		// How high the player can jump 
     private Rigidbody playerRB;		// Populated with the rigidbody of the player later... 
-    private Transform playerT; 
+    private Transform playerT;
     // public bool isGrounded; 		// This boolean will be used to check if the player is on the ground 
     public Animator anim;
     public Transform art;
     public Transform lookN;
-    public bool lookNBool; 
+    public bool lookNBool;
     public Transform lookNW;
     public bool lookNWBool;
     public Transform lookW;
@@ -36,52 +36,60 @@ public class CoreMovement : MonoBehaviour
     public bool lookEBool;
     public Transform lookNE;
     public bool lookNEBool;
-
     public AudioSource grassSteps;
     public bool playSteps;
-
-    public bool hasShield; 
+    public bool hasShield;
+    public bool canMove;
+    public bool isDead;
 
     void Start()
     {
         playerRB = GetComponent<Rigidbody>(); // Set playerRB to the rigidbody of the object this script is attached to 
-        playerT = GetComponent<Transform>(); 
+        playerT = GetComponent<Transform>();
         art.LookAt(lookS);
         grassSteps = GetComponent<AudioSource>();
+        canMove = true;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (!hasShield)
+        if (!isDead && canMove)
         {
-            PlayerMovement();       // Every frame, run this method 
-        }
-        else
-        {
-            PlayerMovementWithShield();
-        }
-        AnimMeth();
-        RotChar();
-        AudioSteps();
-        GameObject.Find("Player").GetComponent<Shield>().BoolGetter(lookNBool, lookNWBool, lookWBool, lookSWBool, lookSBool, lookSEBool, lookEBool, lookNEBool);
+            if (!hasShield)
+            {
+                PlayerMovement();       // Every frame, run this method 
+            }
+            else
+            {
+                PlayerMovementWithShield();
+            }
+            AnimMeth();
+            RotChar();
+            AudioSteps();
+            GameObject.Find("Player").GetComponent<Shield>().BoolGetter(lookNBool, lookNWBool, lookWBool, lookSWBool, lookSBool, lookSEBool, lookEBool, lookNEBool);
 
-        if (grassSteps.isPlaying == false && playSteps == true)
-        {
-            grassSteps.Play(); 
+            if (grassSteps.isPlaying == false && playSteps == true)
+            {
+                grassSteps.Play();
+            }
+            else if (playSteps == false)
+            {
+                grassSteps.Stop();
+            }
+            else if (Input.GetKey("l") && gameObject.GetComponent<UnlockSystem>().GetShieldStatus())
+            {
+                grassSteps.Stop();
+            }
         }
-        else if (playSteps == false)
+        else if (isDead)
         {
-            grassSteps.Stop(); 
-        }
-        else if (Input.GetKey("l") && gameObject.GetComponent<UnlockSystem>().GetShieldStatus())
-        {
-            grassSteps.Stop();
+            anim.Play("Die");
         }
     }
 
     public void HasShieldTog()
     {
-        hasShield = true; 
+        hasShield = true;
     }
 
     private void RotChar()  // controls where the character is facing
@@ -160,7 +168,7 @@ public class CoreMovement : MonoBehaviour
             lookSBool = false;
             lookSEBool = false;
             lookEBool = false;
-            lookNEBool = false; 
+            lookNEBool = false;
         }
         else if (Input.GetKey("a"))
         {
@@ -206,11 +214,11 @@ public class CoreMovement : MonoBehaviour
         {
             anim.Play("Defend");
         }
-        else if(Input.GetKey("w") && !Input.GetKey("l")) 
+        else if (Input.GetKey("w") && !Input.GetKey("l"))
         {
             anim.Play("RunForwardBattle");
         }
-        else if(Input.GetKey("a") && !Input.GetKey("l"))
+        else if (Input.GetKey("a") && !Input.GetKey("l"))
         {
             anim.Play("RunForwardBattle");
         }
@@ -218,15 +226,15 @@ public class CoreMovement : MonoBehaviour
         {
             anim.Play("RunForwardBattle");
         }
-        else if(Input.GetKey("s") && !Input.GetKey("l"))
+        else if (Input.GetKey("s") && !Input.GetKey("l"))
         {
             anim.Play("RunForwardBattle");
         }
-        else if(Input.anyKey == false)
+        else if (Input.anyKey == false)
         {
             anim.Play("Idle_Battle");
         }
-        else if(Input.anyKey == false && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle_Battle"))
+        else if (Input.anyKey == false && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle_Battle"))
         {
             // leave empty 
         }
@@ -292,9 +300,35 @@ public class CoreMovement : MonoBehaviour
         }
         if (Input.anyKey == false)
         {
-            playSteps = false; 
+            playSteps = false;
         }
 
+    }
+
+    public void MakeDead()
+    {
+        isDead = true;
+    }
+
+    public void PushPlayer(Vector3 direction)
+    {
+        //if (direction.x < playerT.position.x)
+        //{
+        //    playerRB.AddForce(-transform.right * 500);
+        //}
+
+        // StartCoroutine(Please()); 
+        // playerRB.transform.Translate(direction * Time.deltaTime * 50);
+        StartCoroutine(Please(direction)); 
+    }
+
+    IEnumerator Please(Vector3 direction)
+    {
+        canMove = false;
+        anim.Play("GetHit"); 
+        playerRB.AddForce(direction * 500);
+        yield return new WaitForSeconds(0.3f);
+        canMove = true; 
     }
 
     // Collision detection 

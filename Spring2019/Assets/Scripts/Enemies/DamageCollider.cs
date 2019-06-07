@@ -6,10 +6,13 @@ using UnityEngine;
 public class DamageCollider : MonoBehaviour
 {
     public int damage;
+    // public GameObject baddy; 
     public List<Collider> TriggerList = new List<Collider>();
     public List<Collider> cleanList = new List<Collider>();
 
-    public bool dam; 
+    public bool dam;
+
+    public Vector3 direction;
 
     private void Update()
     {
@@ -18,13 +21,18 @@ public class DamageCollider : MonoBehaviour
 
     private void OnTriggerEnter(Collider col)
     {
-        if(!TriggerList.Contains(col))
+        //direction = (baddy.transform.position - col.transform.position);
+        direction = (col.transform.position - transform.position).normalized;
+
+        if (!TriggerList.Contains(col))
         {
              TriggerList.Add(col);
         }
         
         if(col.gameObject.name == "Player" && CheckList("Shield(Clone)") == false)
         {
+            col.gameObject.GetComponent<CoreMovement>().PushPlayer(direction);
+            // col.GetComponent<Rigidbody>().AddForce(direction * 25);
             col.gameObject.GetComponent<Health>().ChangeHealth(-damage);
             dam = true; 
         }
