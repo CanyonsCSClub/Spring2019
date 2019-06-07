@@ -37,7 +37,7 @@ public class BossEnemy : MonoBehaviour
     public bool testingFlare;
     public bool testingGrdPnd;
 
-    public bool isDead; 
+    public bool isDead;
 
     private void Start()
     {
@@ -54,7 +54,14 @@ public class BossEnemy : MonoBehaviour
             thisPos = thisRB.position;
             playerPos = playerRB.position;
             MoveToTarget(playerPos);
-            RotateToTarget(playerPos);
+            //if (!cooldown)
+            //{
+            //    RotateToTarget(playerPos);
+            //}
+            if (!attacking)
+            {
+                RotateToTarget(playerPos);
+            }
             AttackRangeChecker(playerPos); 
         }
     }
@@ -199,7 +206,7 @@ public class BossEnemy : MonoBehaviour
 
     IEnumerator GroundPound()
     {
-        attacking = true; 
+        attacking = true;
         isGrdPnd = true; 
         anim.SetBool("attack_03", true);
         yield return new WaitForSeconds(1.5f);
@@ -253,6 +260,6 @@ public class BossEnemy : MonoBehaviour
         yield return new WaitForSeconds(cooldownTime);
         cooldown = false;
         testingFlare = false;
-        testingGrdPnd = false; 
+        testingGrdPnd = false;
     }
 }

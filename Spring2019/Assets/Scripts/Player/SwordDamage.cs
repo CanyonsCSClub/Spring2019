@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class SwordDamage : MonoBehaviour
 {
+    public List<Collider> TriggerList = new List<Collider>();
     private int damage = 50;
+    private int bossDam = 10; 
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.tag == "Enemy")
+        if (col.gameObject.tag == "Enemy" && CheckList(col.gameObject.name) == false)
         {
+            if (!TriggerList.Contains(col))
+            {
+                TriggerList.Add(col);
+            }
+
             col.gameObject.GetComponent<Health>().ChangeHealth(-damage);
 
             if (col.gameObject.name == "Orc")
@@ -25,10 +32,42 @@ public class SwordDamage : MonoBehaviour
                 col.gameObject.GetComponent<BasicEnemy>().StartHit();
             }
         }
+        if (col.gameObject.tag == "Boss" && CheckList(col.gameObject.name) == false)
+        {
+            if (!TriggerList.Contains(col))
+            {
+                TriggerList.Add(col);
+            }
+
+            col.gameObject.GetComponent<Health>().ChangeHealth(-bossDam);
+        }
     }
 
-    public void Me6()
+    public void CleanList()
     {
-        Debug.Log("Worked"); 
+        TriggerList = new List<Collider>();
     }
+
+    private bool CheckList(string objName)
+    {
+        bool check = false;
+        for (int i = 0; i < TriggerList.Count; i++)
+        {
+            if (TriggerList[i].name == objName)
+            {
+                check = true;
+                i = TriggerList.Count;
+            }
+            else
+            {
+                check = false;
+            }
+        }
+        return check;
+    }
+
+    //public void Me6()
+    //{
+    //    Debug.Log("Worked"); 
+    //}
 }

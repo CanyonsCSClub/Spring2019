@@ -37,6 +37,7 @@ public class PlayerAttack : MonoBehaviour {
         yield return new WaitForSeconds(.5f);
         GetComponent<CoreMovement>().enabled = true;
         //sword.GetComponent<SwordDamage>().enabled = false;
+        sword.GetComponent<SwordDamage>().CleanList(); 
         sword.SetActive(false);
         myCo = null;
         isAttacking = false;
