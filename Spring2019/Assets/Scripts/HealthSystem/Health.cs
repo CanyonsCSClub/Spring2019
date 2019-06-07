@@ -10,11 +10,13 @@ public class Health : MonoBehaviour
     public Text displayHealth;
     public GameObject healthBarObj;
     private Rigidbody rb;
-    private bool isDead; 
+    private bool isDead;
+    public bool invincible;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        invincible = false;                                                                 //GERARDO EDIT
     }
 
     void Update()
@@ -71,6 +73,9 @@ public class Health : MonoBehaviour
 
     public void ChangeHealth(int adj)
     {
-        health = health + adj;
+        if (!invincible)                                        //GERARDO EDIT
+        {
+            health = health + adj;
+        }
     }
 }
