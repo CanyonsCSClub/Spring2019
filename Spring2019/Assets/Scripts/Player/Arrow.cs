@@ -6,6 +6,7 @@ public class Arrow : MonoBehaviour
 {
     public float howLong = 2;
     private int damage = 25;
+    private int bossDam = 5; 
     private Vector3 direction; 
 
     void OnTriggerEnter(Collider col)
@@ -34,6 +35,14 @@ public class Arrow : MonoBehaviour
 
             col.GetComponent<Rigidbody>().AddForce(direction * 500);
             Destroy(gameObject); 
+        }
+        if (col.gameObject.tag == "Boss")
+        {
+            direction = (col.transform.position - GameObject.Find("Player").transform.position).normalized;
+            col.gameObject.GetComponent<Health>().ChangeHealth(-bossDam);
+
+            // col.GetComponent<Rigidbody>().AddForce(direction * 500);
+            Destroy(gameObject);
         }
     }
 }

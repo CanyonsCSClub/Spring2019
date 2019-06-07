@@ -7,6 +7,7 @@ public class DamageCollider : MonoBehaviour
 {
     public int damage;
     public List<Collider> TriggerList = new List<Collider>();
+    public List<Collider> cleanList = new List<Collider>();
 
     public bool dam; 
 
@@ -27,10 +28,6 @@ public class DamageCollider : MonoBehaviour
             col.gameObject.GetComponent<Health>().ChangeHealth(-damage);
             dam = true; 
         }
-        //else if (col.gameObject.name == "Player" && CheckList("Shield(Clone)") == true)
-        //{
-            
-        //}
     }
 
     private void OnTriggerExit(Collider col)
@@ -47,17 +44,12 @@ public class DamageCollider : MonoBehaviour
         {
             TriggerList.Remove(TriggerList[i]); 
         }
+        gameObject.SetActive(false); 
     }
 
     public void CleanList()
     {
-        for (int i = 0; i < TriggerList.Count; i++)
-        {
-            if (TriggerList[i] == null)
-            {
-                TriggerList.Remove(TriggerList[i]);
-            }
-        }
+        TriggerList = new List<Collider>();
     }
 
     private bool CheckList(string objName)

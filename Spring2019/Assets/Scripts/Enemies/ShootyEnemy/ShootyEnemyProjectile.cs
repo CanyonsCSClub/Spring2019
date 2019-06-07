@@ -28,6 +28,7 @@ public class ShootyEnemyProjectile : MonoBehaviour
         //transform.position = Vector3.MoveTowards(startPos, transform.forward, Time.deltaTime * projectileSpeed);
     }
 
+    // Hunter was here 
     private void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.name == "Shield(Clone)")

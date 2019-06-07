@@ -15,7 +15,7 @@ public class Indi : MonoBehaviour
 		if (indiana == true)
         {
 			transform.Translate (speed, 0, 0);// moveing forward
-            Destroy(gameObject, 4.5f);
+            Destroy(gameObject, 5.5f);
 		}
 	}
 	//public void OnTriggerEnter(Collider collision) 

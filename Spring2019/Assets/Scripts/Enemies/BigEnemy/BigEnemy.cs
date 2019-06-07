@@ -65,7 +65,6 @@ public class BigEnemy: MonoBehaviour
         StartCoroutine(GenerateNewWanderPosition());    // Starts a coroutine which works in the background to designate positions for enemy to Wander to
     }
 
-
     void FixedUpdate()
     {
         if (!isDead)
@@ -88,11 +87,7 @@ public class BigEnemy: MonoBehaviour
                 else
                 {
                     animator.SetBool("in range", false);
-
                     MoveToTarget(nextPos);
-
-
-                    //idle
                 }
             }
         }
@@ -200,6 +195,7 @@ public class BigEnemy: MonoBehaviour
         }
     }
 
+    // Hunter was here 
     IEnumerator GetHit()
     {
         wasHit = true; 
@@ -232,9 +228,10 @@ public class BigEnemy: MonoBehaviour
         sweepHitbox.SetActive(true);
 
         yield return new WaitForSeconds(.2f);                           //active hitbox
-        sweepHitbox.gameObject.GetComponent<DamageCollider>().EmptyList();
-        sweepHitbox.SetActive(false); 
-        yield return new WaitForSeconds(.7f);
+        sweepHitbox.gameObject.GetComponent<DamageCollider>().CleanList();
+        yield return new WaitForSeconds(.2f);
+        sweepHitbox.SetActive(false);
+        yield return new WaitForSeconds(.5f);
         
         GetComponent<Renderer>().material.color = Color.white;
                                                                         //print("end attack");
@@ -277,7 +274,6 @@ public class BigEnemy: MonoBehaviour
         //print("attack overhead");
     }
 
-
     IEnumerator CoolDown()                                      //this coroutine is activated after an attack. It gives a delay between attacks. Enemy can move while on cooldown
     {
         coolDown = true;
@@ -288,7 +284,6 @@ public class BigEnemy: MonoBehaviour
 
         coolDown = false;
         //animator.SetBool("CoolDown", false);
-
     }
 
     IEnumerator GenerateNewWanderPosition()                     // coroutine to set locations for enemy to wander to

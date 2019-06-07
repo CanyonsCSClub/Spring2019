@@ -22,6 +22,12 @@ public class ShootyEnemy : MonoBehaviour
     private Vector3 runPos;
     private Vector3 playerPos;
 
+    // Wander stuff - hunter
+    public GameObject wanderObj;    // the object you want the enemy to wander around
+    private Vector3 wanderRad;      // the radius around the wanderObj
+    public bool isWandering;
+    public int aggroRange; 
+
     public float rotationSpeed;
     public float forwardSpeed;
     public float shootRange;
@@ -48,6 +54,13 @@ public class ShootyEnemy : MonoBehaviour
     {
         enemyRB = GetComponent<Rigidbody>();    //get this (enemy) object
         player = GameObject.Find("Player");     //get the player
+
+        wanderRad = new Vector3(wanderObj.transform.position.x, 1.5f, wanderObj.transform.position.z);
+        // I made a wander radius object so the enemy will only wander in roughly the same area, and even return to that area when it loses track of the player like some game do it. 
+        // Otherwise we COULD set the wanderObj to be the same as itself and it'll function the same as before. But idk, I like the idea that it only wanders in roughly the same area. 
+        isWandering = true;
+        StartCoroutine(GenerateNewWanderPosition());
+        nextPos = wanderRad; 
     }
 
     void FixedUpdate()
@@ -64,13 +77,15 @@ public class ShootyEnemy : MonoBehaviour
                 {
                     StartCoroutine(RunAway());
                 }
-
                 else if (DistanceFromPlayer() < shootRange && !wasHit)
                 {
                     //RotateToTarget(playerPos);
                     atkCo = StartCoroutine(Shoot());
                 }
-
+                else if (DistanceFromPlayer() > aggroRange)
+                {
+                    Wander(); 
+                }
                 else
                 {
                     //idle
@@ -92,7 +107,6 @@ public class ShootyEnemy : MonoBehaviour
                         RotateToTarget(playerPos);
                         break;
                 }
-
             }
 
             if (isRunningAway)
@@ -100,9 +114,20 @@ public class ShootyEnemy : MonoBehaviour
                 RotateToTarget(runPos);
                 MoveForward();
             }
-
             previousPos = playerPos;
         }
+    }
+
+    private void Wander()                                                                       // class for wandering
+    {
+        enemyPos = enemyRB.position;                                                           // updates enemyPos variable with current enemy position
+        transform.position = Vector3.MoveTowards(enemyPos, new Vector3(nextPos.x, enemyPos.y, nextPos.z), Time.deltaTime * forwardSpeed);    // moves enemy to position designated by nextPos variable
+        RotateToTarget(nextPos);
+        //if (enemyPos.x != nextPos.x && enemyPos.z != nextPos.z)
+        //{
+        //    RotateToTarget(nextPos);
+        //    MoveForward(); 
+        //}
     }
 
     void RotateToTarget(Vector3 target)                                                         //this function rotates the enemy towards the player based on rotationSpeed
@@ -262,6 +287,7 @@ public class ShootyEnemy : MonoBehaviour
         StartCoroutine(Dieing());
     }
 
+    // Hunter was here
     IEnumerator Dieing()
     {
         isDead = true;
@@ -270,5 +296,32 @@ public class ShootyEnemy : MonoBehaviour
         anim.GetComponent<Animation>().Play("Anim_Death");
         yield return new WaitForSeconds(2);
         Destroy(gameObject);
+    }
+
+    IEnumerator GenerateNewWanderPosition()                     // coroutine to set locations for enemy to wander to
+    {
+        float moveX = 0.0f;
+        float moveZ = 0.0f;
+        int rand = 0;
+
+        while (0 < 1)
+        {
+            enemyPos = enemyRB.position;                       // updates enemyPos variable with current enemy location
+
+            rand = Random.Range(0, 2);                          // randomly chooses whether enemy moves in positive or negative x direction.
+            if (rand == 0)                                      // 0 = negative
+            { moveX = wanderRad.x - Random.Range(3, 7); }       // I went with from 3 to 6 away because of the chance that it might be the same coords as it already is (or only like slightly smaller) 
+            else if (rand == 1)                                 // 1 = positive
+            { moveX = wanderRad.x + Random.Range(3, 7); }       // chooses random distance for movement 
+
+            rand = Random.Range(0, 2);                          // randomly chooses whether enemy moves in positive or negative y direction.
+            if (rand == 0)                                      // 0 = negative
+            { moveZ = wanderRad.z - Random.Range(3, 7); }
+            else if (rand == 1)                                 // 1 = positive
+            { moveZ = wanderRad.z + Random.Range(3, 7); }
+
+            nextPos = new Vector3(moveX, enemyPos.y, moveZ);    // updates nextPos variable with randomly chosen coordinates
+            yield return new WaitForSeconds(10);                // enemy waits 10 seconds before choosing new position
+        }
     }
 }

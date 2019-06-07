@@ -60,6 +60,12 @@ public class Health : MonoBehaviour
                 Destroy(healthBarObj);
                 gameObject.GetComponent<Health>().enabled = false;
             }
+            if (gameObject.name == "Orcutoryx The Scourge")
+            {
+                gameObject.GetComponent<BossEnemy>().StartDeath();
+                Destroy(healthBarObj);
+                gameObject.GetComponent<Health>().enabled = false;
+            }
         }
     }
 
