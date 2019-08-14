@@ -13,7 +13,7 @@ using UnityEngine;
 
 public class PoundWave : MonoBehaviour
 {
-    private float incriment = 0.04f; // The incriment we will be expanding the wave by every frame
+    private float incriment = 0.05f; // The incriment we will be expanding the wave by every frame
 	void Start ()
     {
         Destroy(gameObject, 0.9f);  // Destroy this obj in 0.9 seconds
