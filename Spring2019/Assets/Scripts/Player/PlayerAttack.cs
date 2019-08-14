@@ -8,7 +8,9 @@ public class PlayerAttack : MonoBehaviour {
     private Coroutine myCo;
     private bool isAttacking;
     //public Component swordScript;
-    public GameObject sword; 
+    public GameObject sword;
+    public AudioSource swing;
+    public AudioSource grassySteps; 
 
 	void Start ()
     {
@@ -22,25 +24,26 @@ public class PlayerAttack : MonoBehaviour {
     {
 		if (Input.GetKeyDown("m") && !isAttacking)
         {
-            Debug.Log("Attacked");
+            // Debug.Log("Attacked");
             StartCoroutine(Attack()); 
         }
 	}
 
     IEnumerator Attack()
     {
+        swing.Play();
+        grassySteps.Stop(); 
         GetComponent<CoreMovement>().enabled = false;
         sword.SetActive(true);
         //sword.GetComponent<SwordDamage>().enabled = true;
         isAttacking = true; 
         anim.Play("Attack02");
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.4f);
         GetComponent<CoreMovement>().enabled = true;
         //sword.GetComponent<SwordDamage>().enabled = false;
         sword.GetComponent<SwordDamage>().CleanList(); 
         sword.SetActive(false);
         myCo = null;
         isAttacking = false;
-
     }
 }

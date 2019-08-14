@@ -1,7 +1,7 @@
 ﻿/* 
- * Author: Darrell Wong using Gerardo's wander scripts
+ * Author: Darrell Wong using Gerardo's wander scripts (altered to better match Hunter's) 
  * Start Date: 5/10/2019
- * last updated: 5/17/2019
+ * last updated: 8/13/2019 by Hunter Goodin 
  * Description:     scripting for the shooty enemy
  *                 this script is similar to "BigEnemy.cs"
  */
@@ -22,7 +22,7 @@ public class ShootyEnemy : MonoBehaviour
     private Vector3 runPos;
     private Vector3 playerPos;
 
-    // Wander stuff - hunter
+    // Wander stuff (Hunter was here)
     public GameObject wanderObj;    // the object you want the enemy to wander around
     private Vector3 wanderRad;      // the radius around the wanderObj
     public bool isWandering;
@@ -40,15 +40,21 @@ public class ShootyEnemy : MonoBehaviour
     private Vector3 previousPos;
 
     [Tooltip("Difficulty value of 0 or 1.")]
-    public int difficulty;
+    public int difficulty; // This makes it so this enemy either shoots at you coords or where you're running to. 
 
+    // Hunter was here
+    // (A lot of this stuff is carried over from my work on the basic enemy script so I'm not
+    // going to bother explaining too much of it. That script has pretty accurate documentation.)
     public GameObject anim;
 
     private Coroutine lastCo = null;
     private Coroutine atkCo = null; 
     public bool wasHit;
 
-    public bool isDead; 
+    public bool isDead;
+
+    public AudioSource atk;
+    public AudioSource hit; 
 
     void Start()
     {
@@ -205,6 +211,7 @@ public class ShootyEnemy : MonoBehaviour
         return Vector3.Distance(player.transform.position, enemyRB.transform.position);
     }
 
+    // Hunter was here start... 
     public void StartHit()
     {
         if (!wasHit)
@@ -227,15 +234,18 @@ public class ShootyEnemy : MonoBehaviour
             StopCoroutine(atkCo);
             isShooting = false;
         }
+        hit.Play(); 
         anim.GetComponent<Animation>().Play("Anim_Death");
         yield return new WaitForSeconds(.7f);
         anim.GetComponent<Animation>().CrossFade("Anim_Idle");
         wasHit = false;
         // lastCo = null;
     }
+    // Hunter was here end. 
 
     IEnumerator Shoot()                                             //simply instantiate a projectile, the projectile does the moving by itself
     {
+        atk.Play(); 
         isShooting = true;
         anim.GetComponent<Animation>().CrossFade("Anim_Damage");
         yield return new WaitForSeconds(.3f);

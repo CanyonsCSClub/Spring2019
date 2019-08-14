@@ -1,9 +1,9 @@
 ﻿/*
  * Programmer:   Gerardo Bonnet, partly based on code by Spencer Wilson, Hunter Goodin, and Darrell Wong
  * Date Created: 03/15/2019 @  11:30 PM 
- * Last Updated: 03/21/2019 @  08:26 PM by Hunter Goodin
- * File Name:    CoreMovement.cs 
- * Description:  Movement of enemies at the basic level. 
+ * Last Updated: 08/13/2019 @  02:35 PM by Hunter Goodin
+ * File Name:    BasicEnemy.cs 
+ * Description:  The behavior of the basic enemy. 
  */
 using System.Collections;
 using System.Collections.Generic;
@@ -11,20 +11,21 @@ using UnityEngine;
 
 public class BasicEnemy : MonoBehaviour
 {
-    public Vector3 enemyPos;       // location of enemy self
-    public Vector3 playerPos;      // location of player
-    public Vector3 nextPos;        // set location for enemy to move to
+    public Vector3 enemyPos;       // location of this enemy 
+    public Vector3 playerPos;      // location of the player
+    public Vector3 nextPos;        // set location for this enemy to move to
     public Rigidbody enemyBod;     // physical object variable for enemy self
-    public GameObject wanderObj;    // the object you want the enemy to wander around
-    private Vector3 wanderRad;      // the radius around the wanderObj
+    public GameObject wanderObj;   // the object you want the enemy to wander around
+    private Vector3 wanderRad;     // the radius around the wanderObj (technically a square)
     private GameObject player;
 
     public float speed = 5;     // movement speed
-    public int damage = 5; 
+    public int damage = 5;      // Damage dealt (Hunter was here)
 
     public bool isTracking;    // player is in sight
     public bool isWandering;   // enemy wanders aimlessly to pass the time.  He's a little bored. 
 
+    // Hunter was here start... 
     public GameObject animObj;
     public float rotSpeed;
 
@@ -36,7 +37,11 @@ public class BasicEnemy : MonoBehaviour
 
     private Coroutine lastCo = null;
 
-    public bool isDead; 
+    public bool isDead;
+
+    public AudioSource hit; 
+
+    // Hunter was here end... 
 
     void Start()
     {
@@ -57,6 +62,7 @@ public class BasicEnemy : MonoBehaviour
     {
         if (!isDead)
         {
+            // Hunter was here start... 
             distanceToPlayer = DistanceFromPlayer();
 
             if (distanceToPlayer < aggroRange)
@@ -81,10 +87,12 @@ public class BasicEnemy : MonoBehaviour
                 animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().RunAni();
                 RotateToTarget(nextPos);
             }
+            // Hunter was here end... 
         }
     }
 
-    void RotateToTarget(Vector3 target)                                                         //this function rotates the enemy towards the player based on rotationSpeed
+    //this function rotates the enemy towards the player based on rotationSpeed (Hunter was here but based it partially on Darrell's code) 
+    void RotateToTarget(Vector3 target) 
     {
         Vector3 targetDir = target - transform.position;
 
@@ -114,12 +122,12 @@ public class BasicEnemy : MonoBehaviour
         }
     }
 
-    float DistanceFromPlayer()
+    float DistanceFromPlayer()      // Calculate the distance this object is from the player (Hunter was here)
     {
-        return Vector3.Distance(player.transform.position, enemyBod.transform.position);
+        return Vector3.Distance(player.transform.position, enemyBod.transform.position);    // Return the distance 
     }
 
-    public void StartHit()
+    public void StartHit()  // Start the damaged animation (Hunter was here) 
     {
         if (!wasHit)
         {
@@ -133,18 +141,18 @@ public class BasicEnemy : MonoBehaviour
         }
     }
 
-    IEnumerator GetHit()
+    IEnumerator GetHit()    // (Hunter was here) 
     {
-        float myTime = Time.time;
-        wasHit = true;
-        StartCoroutine(InvincibilityFrames());
-        animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().DamageAni();
-        yield return new WaitForSeconds(0.7f);
-        animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().IdleAni();
-        wasHit = false;
+        wasHit = true;                                                          // Set wasHit to true so the hit will start (this is useful for other aspects of the process)
+        hit.Play();                                                             // Start the hit sound effect
+        StartCoroutine(InvincibilityFrames());                                  // Make it so it can't recieve more damage for some time 
+        animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().DamageAni();    // Play the damaged animation
+        yield return new WaitForSeconds(0.7f);                                  // let the animation play out...
+        animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().IdleAni();      // return to idle once animation has been played
+        wasHit = false;                                                         // Set wasHit back to false so the hit is over 
     }
 
-    IEnumerator GenerateNewWanderPosition()                     // coroutine to set locations for enemy to wander to
+    IEnumerator GenerateNewWanderPosition()                     // coroutine to set locations for enemy to wander to (Hunter was here) 
     {
         float moveX = 0.0f;
         float moveZ = 0.0f;
@@ -174,21 +182,20 @@ public class BasicEnemy : MonoBehaviour
         }
     }
 
-    public void StartDeath()
+    public void StartDeath()    // Behavior when the enemy dies (Hunter was here) 
     {
-        enemyBod.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
-        StopAllCoroutines();
-        StartCoroutine(Dieing());
-    }
+        enemyBod.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;   // Freeze the body so it can't move 
+        StopAllCoroutines();        // Stop every coroutine from this script
+        StartCoroutine(Dieing());   // Start the dieing coroutine 
+    }   
 
     IEnumerator Dieing()
     {
-        isDead = true;
-        animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().enabled = false;
-        animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().enabled = false;
-        animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().DeathAni();
-        yield return new WaitForSeconds(2);
-        Destroy(gameObject);
+        isDead = true;                                                              // set isDead to true 
+        animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().enabled = false;    // Stop  all animations 
+        animObj.gameObject.GetComponent<MushroomMon_Ani_Test>().DeathAni();         // Start death animation 
+        yield return new WaitForSeconds(2);                                         // Wait 2 second for animation to play out 
+        Destroy(gameObject);                                                        // Destroy the enemy object 
     }
 
     IEnumerator InvincibilityFrames()                           //GERARDO START

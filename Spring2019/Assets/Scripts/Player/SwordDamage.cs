@@ -1,4 +1,13 @@
-﻿using System.Collections;
+﻿/*
+ * Programmer:   Hunter Goodin 
+ * Date Created: 06/07/2019 @  6:00 PM 
+ * Last Updated: 08/13/2019 @  6:40 PM by Hunter Goodin
+ * File Name:    SwordDamage.cs 
+ * Description:  This script will be responsible for making the sword hurt bad guys pretty bad. 
+                 I used lists to keep track of everything the sword is touching. 
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -69,9 +78,4 @@ public class SwordDamage : MonoBehaviour
         }
         return check;
     }
-
-    //public void Me6()
-    //{
-    //    Debug.Log("Worked"); 
-    //}
 }

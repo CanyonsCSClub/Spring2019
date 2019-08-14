@@ -20,3 +20,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Hunter-WinScreen.unity
     guid: bb293cef9ae679841afae03c251246ec
+  - enabled: 1
+    path: Assets/Scenes/Hunter-ControlsMenu.unity
+    guid: 2fa3b5cd71bd35841949dd552096f3a4

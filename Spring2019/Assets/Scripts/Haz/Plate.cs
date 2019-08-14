@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 //Programer: Dylan Rodriguez
 //01000110 01110101 01100011 01101011 00100000 01001101 01100001 01100011
+
+// Dylan, please use the universal comment header I supplied... I'm broken. - Hunter Goodin 
+
 public class Plate : MonoBehaviour {
 	//I coded it kind of like i did with the lap system
 	public GameObject ewokes;
@@ -13,6 +16,10 @@ public class Plate : MonoBehaviour {
     public bool ewokPlate;
     public bool indiPlate; 
 
+
+// Don't need anything in Update anymore so I'm commenting it out entirely (Hunter)
+
+/*
 	private void Update()
     {
 		//if (checker == true)
@@ -26,6 +33,10 @@ public class Plate : MonoBehaviour {
 		//	Ewokes.SetActive (false);
 		//}
 	}
+*/ 
+
+// Changed this script to more of a preassure plate system (Hunter) 
+
 	void OnTriggerEnter (Collider col)
     {
         if(col.name == "Player" && ewokPlate == true)

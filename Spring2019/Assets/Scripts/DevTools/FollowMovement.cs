@@ -1,7 +1,7 @@
 ﻿/*
  * Programmer:   Hunter Goodin 
  * Date Created: 03/12/2019 @  8:15 PM 
- * Last Updated: 03/12/2019 @  8:30 PM by Hunter Goodin
+ * Last Updated: 08/13/2019 @  8:30 PM by Hunter Goodin
  * File Name:    CoreMovement.cs 
  * Description:  This script will be responsible for the camera's movement. 
  */

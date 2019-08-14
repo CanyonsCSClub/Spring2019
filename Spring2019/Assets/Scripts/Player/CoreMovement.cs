@@ -37,6 +37,8 @@ public class CoreMovement : MonoBehaviour
     public Transform lookNE;
     public bool lookNEBool;
     public AudioSource grassSteps;
+    public AudioSource swing;
+    public AudioSource hurt; 
     public bool playSteps;
     public bool hasShield;
     public bool canMove;
@@ -47,7 +49,7 @@ public class CoreMovement : MonoBehaviour
         playerRB = GetComponent<Rigidbody>(); // Set playerRB to the rigidbody of the object this script is attached to 
         playerT = GetComponent<Transform>();
         art.LookAt(lookS);
-        grassSteps = GetComponent<AudioSource>();
+        // grassSteps = GetComponent<AudioSource>();
         canMove = true;
     }
 
@@ -325,7 +327,8 @@ public class CoreMovement : MonoBehaviour
     IEnumerator Please(Vector3 direction)
     {
         canMove = false;
-        anim.Play("GetHit"); 
+        anim.Play("GetHit");
+        hurt.Play(); 
         playerRB.AddForce(direction * 500);
         yield return new WaitForSeconds(0.3f);
         canMove = true; 

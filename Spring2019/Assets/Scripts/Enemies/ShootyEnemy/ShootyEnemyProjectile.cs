@@ -1,7 +1,7 @@
 ﻿/* 
  * Author: Darrell Wong 
  * Start Date: 5/10/2019
- * last updated: 5/17/2019
+ * last updated: 8/13/2019 by Hunter Goodin
  * Description:     scripting for the shooty enemy's projectile
  *               I decided to have the projectile move itself with a transform.position so that I can have a definite projectileSpeed for the prediction shooting to work;
  */
@@ -29,6 +29,7 @@ public class ShootyEnemyProjectile : MonoBehaviour
     }
 
     // Hunter was here 
+    // Altered it so it actually damages the player 
     private void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.name == "Shield(Clone)")

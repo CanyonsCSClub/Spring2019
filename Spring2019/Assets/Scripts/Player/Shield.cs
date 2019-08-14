@@ -35,7 +35,10 @@ public class Shield : MonoBehaviour
     public Transform NEGO;
     public Transform SEGO;
 
-    // Update is called once per frame
+    // Not the optimal way the shield animations should be handled (partically in the core movement script) but I didn't 
+    // want to change too much of the script that was already there. 
+    // Also made it to where when the player is using the shield, the player can not move. It was causing too many bugs. 
+    // (Hunter) 
     void Update ()
     {
         shieldposition.Set(SGO.position.x, SGO.position.y, SGO.position.z); //default shield position in case player hasnt moved is in front
@@ -88,6 +91,7 @@ public class Shield : MonoBehaviour
         }
     }
 
+    // Hunter was here 
     public void BoolGetter(bool Np, bool NWp, bool Wp, bool SWp, bool Sp, bool SEp, bool Ep, bool NEp)
     {
         N = Np;

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 //Programer: Dylan Rodriguez
 /*01001101 01100001 01100011 00100111 01110011 00100000 00111101 00100000 
  01001000 01101111 01110010 01110010 01101001 01100010 01101100 01100101*/
+
+// Dylan, please use the universal comment header I supplied... - Hunter Goodin 
 public class Ewok : MonoBehaviour
 {
 	//I coded it kind of like i did with the lap system

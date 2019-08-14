@@ -4,6 +4,8 @@ using UnityEngine;
 //Programer: Dylan Rodriguez
 /*01001101 01100001 01100011 00100111 01110011 00100000 01100011 01100001 01101110 
  *00100000 01100111 01101111 00100000 01110100 01101111 00100000 01101000 01100101 01101100 01101100 */
+
+// Dylan, please use the universal comment header I supplied... - Hunter Goodin 
 public class Indi : MonoBehaviour
 {
 	public bool indiana;
@@ -18,6 +20,9 @@ public class Indi : MonoBehaviour
             Destroy(gameObject, 5.5f);
 		}
 	}
+
+	// Commented this function out because it was useless (Hunter) 
+
 	//public void OnTriggerEnter(Collider collision) 
 	//{ 
 	//	if (collision.gameObject.CompareTag("Player")) 

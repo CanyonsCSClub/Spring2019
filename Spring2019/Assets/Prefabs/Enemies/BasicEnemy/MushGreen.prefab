@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 54722974817719950}
   - component: {fileID: 114647250372164190}
   - component: {fileID: 114750143582002580}
+  - component: {fileID: 82681227333439246}
   m_Layer: 0
   m_Name: MushGreen
   m_TagString: Enemy
@@ -460,6 +461,86 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!82 &82681227333439246
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1271188648448910}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: dd425748e224abe4d86f176182ee2426, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.2
+  m_Pitch: 3
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!111 &111939874863768978
 Animation:
   m_ObjectHideFlags: 1
@@ -503,7 +584,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   TriggerList: []
+  cleanList: []
   dam: 0
+  direction: {x: 0, y: 0, z: 0}
 --- !u!114 &114303628478453848
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -551,6 +634,10 @@ MonoBehaviour:
   animObj: {fileID: 1037418777254980}
   rotSpeed: 5
   aggroRange: 7
+  wasHit: 0
+  recentHit: 0
+  isDead: 0
+  hit: {fileID: 82681227333439246}
 --- !u!114 &114742998441558990
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -577,6 +664,7 @@ MonoBehaviour:
   maxHealth: 100
   displayHealth: {fileID: 0}
   healthBarObj: {fileID: 1088373650006814}
+  invincible: 0
 --- !u!136 &136296411720122182
 CapsuleCollider:
   m_ObjectHideFlags: 1

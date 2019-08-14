@@ -1,4 +1,12 @@
-﻿using System.Collections;
+﻿/*
+ * Programmer:   Hunter Goodin 
+ * Date Created: 06/07/2019 @  3:35 PM 
+ * Last Updated: 08/13/2019 @  6:40 PM by Hunter Goodin
+ * File Name:    UnlockShield.cs 
+ * Description:  This script will be responsible for unlocking the shield. 
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

@@ -1,8 +1,8 @@
 ﻿/* 
- * Author: Darrell Wong using Gerardo's wander scripts
+ * Author: Darrell Wong using Gerardo's wander scripts (altered to better match Hunter's) 
  * Start Date: 3/29/2019
- * last updated: 4/19/2019
- * Description:     scripting for the big enemy
+ * last updated: 08/13/2019 by Hunter Goodin 
+ * Description:     scripting for the big bad enemy guy
  */
 
 // #pragma strict
@@ -39,6 +39,10 @@ public class BigEnemy: MonoBehaviour
     public float backCone;
     public float CoolDownTime;
 
+
+    // Hunter was here start 
+    // (A lot of this stuff is carried over from my work on the basic enemy script so I'm not
+    // going to bother explaining too much of it. That script has pretty accurate documentation.)
     public Animator animator;
 
     public bool isSweeping;
@@ -49,7 +53,11 @@ public class BigEnemy: MonoBehaviour
     public bool wasHit;
     public bool recentHit;
 
-    public bool isDead; 
+    public bool isDead;
+
+    public AudioSource atk;
+    public AudioSource hit; 
+    // Hunter was here end 
 
     void Start()
     {
@@ -75,7 +83,7 @@ public class BigEnemy: MonoBehaviour
             playerPos = player.transform.position;
             distanceToPlayer = DistanceFromPlayer();
 
-            animator.SetBool("moving forward", false);                      //I wasn't sure how to rig the animations properly. it works but dont follow my example because i might be wrong.
+            animator.SetBool("moving forward", false);                      //I wasn't sure how to rig the animations properly. it works but dont follow my example because i might be wrong. (Darrell)
             animator.SetBool("rotating", false);
             animator.SetBool("CoolDown", coolDown);
 
@@ -199,8 +207,10 @@ public class BigEnemy: MonoBehaviour
     }
 
     // Hunter was here 
+    // This script is for the damaged animation 
     IEnumerator GetHit()
     {
+        hit.Play(); 
         wasHit = true;
         StartCoroutine(InvincibilityFrames());
         if (isSweeping)
@@ -230,6 +240,7 @@ public class BigEnemy: MonoBehaviour
                                                                         //print("wind up");
         yield return new WaitForSeconds(.8f);
         sweepHitbox.SetActive(true);
+        atk.Play();
 
         yield return new WaitForSeconds(.2f);                           //active hitbox
         sweepHitbox.gameObject.GetComponent<DamageCollider>().CleanList();
@@ -256,8 +267,8 @@ public class BigEnemy: MonoBehaviour
         //spinHitbox.GetComponent<Renderer>().enabled = true;
         spinHitbox.SetActive(true);
         GetComponent<Renderer>().material.color = Color.yellow;
-                                                                        //print("active hitbox");
 
+        atk.Play();
         for (int i = 0; i < 18; i++)
         {
             enemyRB.transform.Rotate(0, -20, 0, Space.Self);
@@ -320,22 +331,22 @@ public class BigEnemy: MonoBehaviour
         }
     }
 
-    public void StartDeath()
+    public void StartDeath() // (Hunter was here) 
     {
-        enemyRB.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
-        StopAllCoroutines();
-        StartCoroutine(Dieing()); 
+        enemyRB.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;    // Freeze the body so it can't move 
+        StopAllCoroutines();        // Stop every coroutine from this script
+        StartCoroutine(Dieing());   // Start the dieing coroutine 
     }
 
     IEnumerator Dieing()
     {
-        isDead = true;
-        animator.enabled = false;
-        animator.enabled = true;
-        animator.Play("Die"); 
-        yield return new WaitForSeconds(2);
-        Destroy(gameObject);
-    }
+        isDead = true;                      // Set isDead to true 
+        animator.enabled = false;           // Stop  all animations by disabling the animator 
+        animator.enabled = true;            // Reset animator  
+        animator.Play("Die");               // Start death animation 
+        yield return new WaitForSeconds(2); // Wait two seconds for the animation to play out 
+        Destroy(gameObject);                // Destroy the game object 
+    }               
 
     IEnumerator InvincibilityFrames()                           //GERARDO START
     {
