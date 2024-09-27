@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: c4fa8b7d9eb14f5439663af775c3c679
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - player: {instanceID: 0}
+  - Spawnpoint: {instanceID: 0}
+  - Sword: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
